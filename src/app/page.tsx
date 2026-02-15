@@ -1,80 +1,220 @@
 'use client';
 
-import { Container, Typography, Box, Stack } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { MainLayout } from '@/components/layouts';
-import { Button, Card } from '@/components/common';
-import Link from 'next/link';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import {
+  Box,
+  CardContent,
+  Container,
+  Typography,
+  InputAdornment,
+  IconButton,
+  Alert,
+  AlertTitle
+} from '@mui/material';
+import {
+  Person,
+  Lock,
+  Visibility,
+  VisibilityOff
+} from '@mui/icons-material';
+import { Card, Button, TextField, Notification } from '@/components/common';
+import { useAuth } from '@/hooks/api/useAuth';
+import { useRouter } from 'next/navigation';
+
+interface LoginFormData {
+  username: string;
+  password: string;
+}
 
 export default function Home() {
-  const { t } = useTranslation();
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [notification, setNotification] = useState({
+    open: false,
+    message: '',
+    severity: 'info' as 'success' | 'error' | 'warning' | 'info',
+    title: ''
+  });
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>();
+
+  const loginMutation = useAuth();
+
+  const onSubmit = async (data: LoginFormData) => {
+    setError(null);
+    try {
+      await loginMutation.mutate(data);
+      setNotification({
+        open: true,
+        message: 'เข้าสู่ระบบสำเร็จ',
+        severity: 'success',
+        title: 'สำเร็จ'
+      });
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 1500);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'เกิดข้อผิดพลาดไม่ทราบสาเหตุ');
+    }
+  };
 
   return (
-    <MainLayout title="Next.js Boilerplate" showSidebar>
-      <Container maxWidth="lg">
-        <Box sx={{ my: 4 }}>
-          <Typography variant="h3" component="h1" gutterBottom>
-            {t('navigation.home')}
-          </Typography>
-          <Typography variant="body1" color="text.secondary" paragraph>
-            Next.js Boilerplate with MUI and i18n
-          </Typography>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        padding: 2,
+      }}
+    >
+      <Container maxWidth="sm">
+        <Card
+          elevation={8}
+          sx={{
+            borderRadius: 3,
+            overflow: 'hidden',
+          }}
+        >
+          <CardContent sx={{ p: { xs: 3, sm: 5 } }}>
+            {/* Header */}
+            <Box sx={{ textAlign: 'center', mb: 4 }}>
+              <Typography
+                variant="h4"
+                component="h1"
+                sx={{
+                  fontWeight: 700,
+                  mb: 1,
+                  color: 'primary.main',
+                }}
+              >
+                ยินดีต้อนรับ
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: 'text.secondary',
+                }}
+              >
+                กรุณากรอกข้อมูลเพื่อเข้าสู่ระบบ
+              </Typography>
+            </Box>
 
-          <Stack spacing={3} mt={4}>
-            <Card
-              title="🎨 Material-UI (MUI)"
-              subtitle="Component Library พร้อมใช้งาน"
-            >
-              <Typography variant="body2" paragraph>
-                ใช้ MUI เป็น UI Library หลัก พร้อม Theme customization
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                • Buttons, Cards, Modals, TextFields
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                • Layouts: Header, Footer, Sidebar
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                • Loading และ Notification components
-              </Typography>
-            </Card>
+            {/* Login Form */}
+            <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+              {error && (
+                <Alert severity="error" sx={{ mb: 3 }}>
+                  <AlertTitle>เกิดข้อผิดพลาด</AlertTitle>
+                  {error}
+                </Alert>
+              )}
 
-            <Card
-              title="🌍 Internationalization (i18n)"
-              subtitle="รองรับหลายภาษา"
-            >
-              <Typography variant="body2" paragraph>
-                ใช้ i18next และ react-i18next สำหรับการจัดการภาษา
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                • รองรับภาษาไทยและอังกฤษ
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                • สลับภาษาได้ง่ายผ่าน Header menu
-              </Typography>
-            </Card>
+              <TextField
+                name="username"
+                control={control}
+                fullWidth
+                label="ชื่อผู้ใช้"
+                variant="outlined"
+                rules={{
+                  required: 'กรุณากรอกชื่อผู้ใช้',
+                  minLength: {
+                    value: 3,
+                    message: 'ชื่อผู้ใช้ต้องมีอย่างน้อย 3 ตัวอักษร'
+                  }
+                }}
+                error={!!errors.username}
+                helperText={errors.username?.message}
+                disabled={loginMutation.isPending}
+                sx={{ mb: 3 }}
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Person color="action" />
+                      </InputAdornment>
+                    )
+                  }
+                }}
+              />
 
-            <Card
-              title="📦 Common Components"
-              subtitle="Components พื้นฐานที่ใช้บ่อย"
-            >
-              <Typography variant="body2" paragraph>
-                Components ที่ออกแบบให้ใช้งานง่าย อ่านโค้ดง่าย
-              </Typography>
-              <Box mt={2}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  component={Link}
-                  href="/example"
-                >
-                  ดูตัวอย่าง Components
-                </Button>
-              </Box>
-            </Card>
-          </Stack>
-        </Box>
+              <TextField
+                name="password"
+                control={control}
+                fullWidth
+                label="รหัสผ่าน"
+                type={showPassword ? 'text' : 'password'}
+                variant="outlined"
+                rules={{
+                  required: 'กรุณากรอกรหัสผ่าน',
+                  minLength: {
+                    value: 6,
+                    message: 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร'
+                  }
+                }}
+                error={!!errors.password}
+                helperText={errors.password?.message}
+                disabled={loginMutation.isPending}
+                sx={{ mb: 4 }}
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Lock color="action" />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                          aria-label="toggle password visibility"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }
+                }}
+              />
+
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                size="large"
+                loading={loginMutation.isPending}
+                sx={{
+                  py: 1.5,
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  boxShadow: 3,
+                  '&:hover': {
+                    boxShadow: 6,
+                  },
+                }}
+              >
+                เข้าสู่ระบบ
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
       </Container>
-    </MainLayout>
+
+      {/* Notification */}
+      <Notification
+        open={notification.open}
+        message={notification.message}
+        title={notification.title}
+        severity={notification.severity}
+        onClose={() => setNotification({ ...notification, open: false })}
+      />
+    </Box>
   );
 }
