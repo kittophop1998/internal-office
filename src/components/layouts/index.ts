@@ -1,6 +1,6 @@
 // Layout Components
-export { Header } from './Header';
-export type { HeaderProps } from './Header';
+// export { Header } from './Header';
+// export type { HeaderProps } from './Header';
 
 export { Footer } from './Footer';
 export type { FooterProps } from './Footer';
@@ -8,5 +8,5 @@ export type { FooterProps } from './Footer';
 export { Sidebar } from './Sidebar';
 export type { SidebarProps } from './Sidebar';
 
-export { MainLayout } from './MainLayout';
-export type { MainLayoutProps } from './MainLayout';
+export { default as MainLayout } from './MainLayout';
+

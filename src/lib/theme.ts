@@ -1,8 +1,9 @@
 import { createTheme } from '@mui/material/styles';
 
-// สร้าง theme สำหรับ MUI
-export const theme = createTheme({
+// ฟังก์ชันสร้าง theme แบบรองรับ light/dark mode
+export const createAppTheme = (mode: 'light' | 'dark') => createTheme({
   palette: {
+    mode,
     primary: {
       main: '#1976d2',
       light: '#42a5f5',
@@ -47,3 +48,7 @@ export const theme = createTheme({
     },
   },
 });
+
+// สร้าง theme เริ่มต้นสำหรับ light mode (backward compatibility)
+export const theme = createAppTheme('light');
+

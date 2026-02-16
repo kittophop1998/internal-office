@@ -1,5 +1,6 @@
 import { AuthResponse, AuthService, LoginCredentials } from "@/services/api/auth.service";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 export function useAuth(
     options?: Omit<UseMutationOptions<AuthResponse, Error, LoginCredentials>, 'mutationFn'>
@@ -14,4 +15,17 @@ export function useAuth(
         },
         ...options,
     })
+}
+
+export function useLogout() {
+    const router = useRouter();
+
+    const logout = () => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('user');
+        localStorage.removeItem('currentBranchId');
+        router.push('/login');
+    };
+
+    return { logout };
 }

@@ -7,16 +7,12 @@ export const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 });
 
 // Request Interceptor - สำหรับเพิ่ม token หรือ config อื่นๆ
 apiClient.interceptors.request.use(
   (config) => {
-    // เพิ่ม Authorization token (ถ้ามี)
-    const token = localStorage.getItem('access_token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
     return config;
   },
   (error) => {
@@ -36,8 +32,7 @@ apiClient.interceptors.response.use(
       
       switch (status) {
         case 401:
-          // Unauthorized - ลบ token และ redirect ไป login
-          localStorage.removeItem('access_token');
+          // Unauthorized - redirect ไป login (cookie จะถูกลบโดย backend)
           if (typeof window !== 'undefined') {
             window.location.href = '/login';
           }
