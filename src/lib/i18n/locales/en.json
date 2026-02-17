@@ -142,7 +142,9 @@
     "approved": "Approved",
     "reject": "Reject",
     "rejected": "Rejected",
-    "saveReview": "Save Review"
+    "saveReview": "Save Review",
+    "view": "View",
+    "addComment": "Add comment..."
   },
   "taskForm": {
     "taskNameRequired": "Please enter task name",

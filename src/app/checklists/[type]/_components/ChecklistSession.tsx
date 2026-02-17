@@ -30,6 +30,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import SaveIcon from "@mui/icons-material/Save";
+import TextField from "@mui/material/TextField";
 import { TaskSession, TaskSessionItem } from "@/services/api/tasksession.service";
 
 type ChecklistType = "DAILY" | "WEEKLY" | "MONTHLY" | string;
@@ -213,7 +214,8 @@ export default function ChecklistSessionList({ initialSessions, type, onSubTypeC
                 <List disablePadding>
                     {initialSessions.map((session, index) => {
                         const isAlreadyCompleted = session.status === "COMPLETED";
-                        const isCompleted = isAlreadyCompleted || completedSessions.includes(session.id);
+                        const isApproved = session.status === "APPROVED";
+                        const isCompleted = isAlreadyCompleted || isApproved || completedSessions.includes(session.id);
                         return (
                             <Box key={session.id}>
                                 <ListItem
@@ -225,7 +227,7 @@ export default function ChecklistSessionList({ initialSessions, type, onSubTypeC
                                     }
                                 >
                                     <ListItemIcon>
-                                        <Checkbox edge="start" checked={isCompleted} onChange={() => handleToggleComplete(session.id)} disabled={isAlreadyCompleted} />
+                                        <Checkbox edge="start" checked={isCompleted} onChange={() => handleToggleComplete(session.id)} disabled={isAlreadyCompleted || isApproved} />
                                     </ListItemIcon>
                                     <ListItemText
                                         primary={
@@ -259,6 +261,28 @@ export default function ChecklistSessionList({ initialSessions, type, onSubTypeC
                 </DialogTitle>
                 <DialogContent>
                     <Stack spacing={2} sx={{ mt: 1 }}>
+                        {/* Manager Comment (if APPROVED) */}
+                        {selectedSession?.managerComment && (
+                            <Box>
+                                <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 1 }}>
+                                    ความคิดเห็นจากผู้จัดการ
+                                </Typography>
+                                <TextField
+                                    fullWidth
+                                    multiline
+                                    rows={3}
+                                    value={selectedSession.managerComment}
+                                    disabled
+                                    variant="outlined"
+                                    sx={{ 
+                                        "& .MuiInputBase-input.Mui-disabled": {
+                                            WebkitTextFillColor: "rgba(0, 0, 0, 0.87)",
+                                        }
+                                    }}
+                                />
+                            </Box>
+                        )}
+
                         {/* Existing Attachments */}
                         {existingAttachments.length > 0 && (
                             <Box>
