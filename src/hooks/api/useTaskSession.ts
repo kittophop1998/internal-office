@@ -37,6 +37,10 @@ export function useCheckTaskSessionExists(
         queryFn: () => TaskSession.checkTaskSessionExists(params),
         enabled: !!params.branchId && !!params.type,
         ...options,
+        refetchOnMount: 'always',
+        refetchOnWindowFocus: false,
+        staleTime: 0,
+        gcTime: 0,
     });
 }
 

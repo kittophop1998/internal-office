@@ -7,8 +7,8 @@ export interface TaskSessionFilter {
 }
 
 export interface TaskSessionAttachment {
-    attachment_id: number;
-    attachment_url: string;
+    attachmentId: number;
+    attachmentUrl: string;
 }
 
 export interface TaskSessionItem {
@@ -62,11 +62,10 @@ export class TaskSession extends BaseApiService {
     static async uploadImage(sessionId: number, files: File[]) {
         const formData = new FormData();
         files.forEach((file) => {
-            formData.append('images', file);
+            formData.append('files', file);
         });
-        return this.post<{ success: boolean; attachments: TaskSessionAttachment[] }>(
-            `${this.BASE_PATH}/${sessionId}/attachments`,
-            formData,
+        return this.put<{ success: boolean; attachments: TaskSessionAttachment[] }>(
+            `${this.BASE_PATH}/upload/${sessionId}`, formData,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',

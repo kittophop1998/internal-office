@@ -30,10 +30,15 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import SaveIcon from "@mui/icons-material/Save";
-import { TaskSession, TaskSessionItem, TaskSessionAttachment } from "@/services/api/tasksession.service";
+import { TaskSession, TaskSessionItem } from "@/services/api/tasksession.service";
 
 type ChecklistType = "DAILY" | "WEEKLY" | "MONTHLY" | string;
 type DailySubType = "pre-opening" | "post-closing";
+
+interface TaskSessionAttachment {
+    attachmentId: number;
+    attachmentUrl: string;
+}
 
 interface ImagePreview {
     file: File;
@@ -260,8 +265,8 @@ export default function ChecklistSessionList({ initialSessions, type, onSubTypeC
                                 <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 1 }}>รูปภาพที่อัปโหลดแล้ว</Typography>
                                 <Stack direction="row" spacing={2} sx={{ flexWrap: "wrap", gap: 2 }}>
                                     {existingAttachments.map((attachment, index) => (
-                                        <Box key={attachment.attachment_id} sx={{ position: "relative", width: 110, height: 110, borderRadius: 2, overflow: "hidden", border: "1px solid", borderColor: "divider" }}>
-                                            <Box component="img" src={attachment.attachment_url || ""} alt={`attachment-${index}`} sx={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                                        <Box key={attachment.attachmentId} sx={{ position: "relative", width: 110, height: 110, borderRadius: 2, overflow: "hidden", border: "1px solid", borderColor: "divider" }}>
+                                            <Box component="img" src={attachment.attachmentUrl || ""} alt={`attachment-${index}`} sx={{ width: "100%", height: "100%", objectFit: "cover" }} />
                                         </Box>
                                     ))}
                                 </Stack>
