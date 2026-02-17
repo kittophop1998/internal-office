@@ -16,7 +16,9 @@
     "yes": "ใช่",
     "no": "ไม่",
     "back": "ย้อนกลับ",
-    "addNew": "เพิ่มใหม่"
+    "addNew": "เพิ่มใหม่",
+    "saving": "กำลังบันทึก...",
+    "deleting": "กำลังลบ..."
   },
   "validation": {
     "required": "กรุณากรอกข้อมูล",
@@ -80,8 +82,32 @@
     "pageTitle": "Tasks"
   },
   "users": {
-    "title": "Users",
-    "pageTitle": "Users Page"
+    "title": "จัดการผู้ใช้",
+    "pageTitle": "ผู้ใช้",
+    "subtitle": "จัดการผู้ใช้ระบบและสิทธิ์การเข้าถึง",
+    "username": "ชื่อผู้ใช้",
+    "fullname": "ชื่อ-นามสกุล",
+    "email": "อีเมล",
+    "telephone": "เบอร์โทรศัพท์",
+    "address": "ที่อยู่",
+    "role": "บทบาท",
+    "status": "สถานะ",
+    "actions": "จัดการ",
+    "active": "ใช้งาน",
+    "inactive": "ไม่ใช้งาน",
+    "noRole": "ไม่มีบทบาท",
+    "roleAdmin": "ผู้ดูแลระบบ",
+    "roleManager": "ผู้จัดการ",
+    "roleStaff": "พนักงาน",
+    "editUser": "แก้ไขข้อมูลผู้ใช้",
+    "usernameReadonly": "ชื่อผู้ใช้ไม่สามารถเปลี่ยนแปลงได้",
+    "activeStatus": "สถานะใช้งาน",
+    "updateSuccess": "แก้ไขข้อมูลผู้ใช้สำเร็จ",
+    "updateError": "เกิดข้อผิดพลาดในการแก้ไข: {{message}}",
+    "confirmDelete": "ยืนยันการลบ",
+    "confirmDeleteMessage": "ต้องการลบผู้ใช้ \"{{username}}\" ใช่หรือไม่?",
+    "deleteSuccess": "ลบผู้ใช้สำเร็จ",
+    "deleteError": "เกิดข้อผิดพลาดในการลบ: {{message}}"
   },
   "taskReview": {
     "title": "รีวิวงาน",

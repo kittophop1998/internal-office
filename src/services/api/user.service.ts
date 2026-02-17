@@ -28,4 +28,16 @@ export class UserService extends BaseApiService {
     static async fetchAll(): Promise<User[]> {
         return this.get<User[]>(`${this.BASE_PATH}`);
     }
+
+    static async fetchById(id: string): Promise<User> {
+        return this.get<User>(`${this.BASE_PATH}/${id}`);
+    }
+
+    static async update(id: string, data: Partial<User>): Promise<User> {
+        return this.put<User>(`${this.BASE_PATH}/${id}`, data);
+    }
+
+    static async deleteUser(id: string): Promise<{ message: string }> {
+        return this.delete<{ message: string }>(`${this.BASE_PATH}/${id}`);
+    }
 }

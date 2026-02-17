@@ -12,7 +12,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import StoreIcon from '@mui/icons-material/Store';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState, useContext, useEffect, useMemo } from 'react';
-import { ThemeModeContext } from '../../app/providers/ThemeProvider';
+// import { ThemeModeContext } from '../../app/providers/ThemeProvider';
 import { useLogout } from '../../hooks/api/useAuth';
 import { useBranches } from '../../hooks/api/useMaster';
 import SelectBranchDialog from '@/components/layouts/SelectBranchDialog';
@@ -33,7 +33,7 @@ export default function Header({
 }: HeaderProps) {
     const router = useRouter();
     const { t, i18n } = useTranslation();
-    const { mode, toggleTheme } = useContext(ThemeModeContext);
+    // const { mode, toggleTheme } = useContext(ThemeModeContext);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [openBranchDialog, setOpenBranchDialog] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -246,14 +246,14 @@ export default function Header({
                     {/* Desktop Controls - Hidden on mobile */}
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
                         {/* Theme Toggle */}
-                        <IconButton
+                        {/* <IconButton
                             onClick={toggleTheme}
                             aria-label="toggle theme"
                             size="small"
                             sx={{ mr: 1, color: 'text.primary' }}
                         >
                             {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-                        </IconButton>
+                        </IconButton> */}
 
                         {/* Language Toggle */}
                         <Box>
@@ -372,7 +372,7 @@ export default function Header({
                     <Divider sx={{ my: 1 }} />
 
                     {/* Theme Toggle */}
-                    <ListItem 
+                    {/* <ListItem
                         onClick={toggleTheme}
                         sx={{ cursor: 'pointer' }}
                     >
@@ -382,7 +382,7 @@ export default function Header({
                         <ListItemText 
                             primary={mode === 'dark' ? t('header.lightMode') : t('header.darkMode')} 
                         />
-                    </ListItem>
+                    </ListItem> */}
 
                     {/* Language */}
                     <ListItem>

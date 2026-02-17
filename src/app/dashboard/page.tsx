@@ -10,6 +10,7 @@ import { Box, CardActionArea, CardContent, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { Card } from "@/components/common";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const menuItems = [
     {
@@ -18,6 +19,7 @@ const menuItems = [
         path: '/checklists',
         isActive: true,
         color: '#10b981',
+        role: ['ADMIN', 'MANAGER', 'STAFF'],
     },
     {
         key: 'tasksMenu',
@@ -25,6 +27,7 @@ const menuItems = [
         path: '/tasks',
         isActive: true,
         color: '#3b82f6',
+        role: ['ADMIN', 'MANAGER'],
     },
     {
         key: 'userManagement',
@@ -32,6 +35,7 @@ const menuItems = [
         path: '/users',
         isActive: true,
         color: '#ec4899',
+        role: ['ADMIN'],
     },
     {
         key: 'taskReviewMenu',
@@ -39,17 +43,35 @@ const menuItems = [
         path: '/taskreview',
         isActive: true,
         color: '#8b5cf6',
+        role: ['ADMIN', 'MANAGER'],
     },
 ];
 
 export default function DashboardPage() {
     const { t } = useTranslation();
     const router = useRouter();
+    const [userRole] = useState<string>(() => {
+        if (typeof window !== 'undefined') {
+            const userStr = localStorage.getItem('user');
+            if (userStr) {
+                try {
+                    const user = JSON.parse(userStr);
+                    return user.roleCode || 'staff';
+                } catch (e) {
+                    console.error("Parse error:", e);
+                }
+            }
+        }
+
+        return 'staff';
+    });
 
     const handleMenuClick = (path: string, isActive: boolean) => {
         if (!isActive) return
         router.push(path)
     };
+
+    const filteredMenuItems = menuItems.filter((item) => item.role.includes(userRole));
 
     return (
         <MainLayout title="Dashboard" showBackButton={false}>
@@ -66,7 +88,7 @@ export default function DashboardPage() {
             </Box>
 
             <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)' }, gap: 3 }}>
-                {menuItems
+                {filteredMenuItems
                     .filter((item) => item.isActive)
                     .map((item) => {
                         const IconComponent = item.icon;

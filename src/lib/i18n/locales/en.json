@@ -16,7 +16,9 @@
     "yes": "Yes",
     "no": "No",
     "back": "Back",
-    "addNew": "Add New"
+    "addNew": "Add New",
+    "saving": "Saving...",
+    "deleting": "Deleting..."
   },
   "validation": {
     "required": "This field is required",
@@ -80,8 +82,32 @@
     "pageTitle": "Tasks"
   },
   "users": {
-    "title": "Users",
-    "pageTitle": "Users Page"
+    "title": "User Management",
+    "pageTitle": "Users",
+    "subtitle": "Manage system users and their permissions",
+    "username": "Username",
+    "fullname": "Full Name",
+    "email": "Email",
+    "telephone": "Telephone",
+    "address": "Address",
+    "role": "Role",
+    "status": "Status",
+    "actions": "Actions",
+    "active": "Active",
+    "inactive": "Inactive",
+    "noRole": "No Role",
+    "roleAdmin": "Admin",
+    "roleManager": "Manager",
+    "roleStaff": "Staff",
+    "editUser": "Edit User",
+    "usernameReadonly": "Username cannot be changed",
+    "activeStatus": "Active",
+    "updateSuccess": "User updated successfully",
+    "updateError": "Error updating user: {{message}}",
+    "confirmDelete": "Confirm Delete",
+    "confirmDeleteMessage": "Do you want to delete user \"{{username}}\"?",
+    "deleteSuccess": "User deleted successfully",
+    "deleteError": "Error deleting user: {{message}}"
   },
   "taskReview": {
     "title": "Task Review",
