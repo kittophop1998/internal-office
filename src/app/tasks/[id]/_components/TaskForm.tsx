@@ -269,7 +269,7 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
 
     const getDisplayName = useCallback(
         (userId: string) => {
-            const user = users.find((item) => String(item.id) === userId);
+            const user = users.find((item) => Number(item.id) === Number(userId));
             if (user) {
                 return `${user.fullname ?? ""}`.trim();
             }

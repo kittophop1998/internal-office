@@ -29,6 +29,7 @@ export function TextField<T extends FieldValues = FieldValues>({
         render={({ field, fieldState: { error } }) => (
           <MuiTextField
             {...field}
+            value={field.value ?? ''}
             {...props}
             error={!!error}
             helperText={error?.message || props.helperText}
@@ -38,5 +39,5 @@ export function TextField<T extends FieldValues = FieldValues>({
     );
   }
 
-  return <MuiTextField name={name} {...props} />;
+  return <MuiTextField name={name} value={props.value ?? ''} {...props} />;
 }
