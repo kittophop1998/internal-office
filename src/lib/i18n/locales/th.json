@@ -14,17 +14,123 @@
     "success": "สำเร็จ",
     "confirm": "ยืนยัน",
     "yes": "ใช่",
-    "no": "ไม่"
+    "no": "ไม่",
+    "back": "ย้อนกลับ",
+    "addNew": "เพิ่มใหม่"
   },
   "validation": {
     "required": "กรุณากรอกข้อมูล",
     "email": "รูปแบบอีเมลไม่ถูกต้อง",
     "minLength": "ต้องมีความยาวอย่างน้อย {{min}} ตัวอักษร",
-    "maxLength": "ต้องมีความยาวไม่เกิน {{max}} ตัวอักษร"
+    "maxLength": "ต้องมีความยาวไม่เกิน {{max}} ตัวอักษร",
+    "usernameRequired": "กรุณากรอกชื่อผู้ใช้",
+    "usernameMinLength": "ชื่อผู้ใช้ต้องมีอย่างน้อย 3 ตัวอักษร",
+    "passwordRequired": "กรุณากรอกรหัสผ่าน",
+    "passwordMinLength": "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร"
   },
   "navigation": {
     "home": "หน้าแรก",
     "about": "เกี่ยวกับเรา",
-    "contact": "ติดต่อเรา"
+    "contact": "ติดต่อเรา",
+    "dashboard": "แดชบอร์ด",
+    "checklists": "เช็คลิสต์",
+    "tasks": "งาน",
+    "users": "ผู้ใช้",
+    "taskReview": "รีวิวงาน"
+  },
+  "login": {
+    "title": "ยินดีต้อนรับ",
+    "subtitle": "กรุณากรอกข้อมูลเพื่อเข้าสู่ระบบ",
+    "username": "ชื่อผู้ใช้",
+    "password": "รหัสผ่าน",
+    "loginButton": "เข้าสู่ระบบ",
+    "loginSuccess": "เข้าสู่ระบบสำเร็จ",
+    "loginError": "เกิดข้อผิดพลาด",
+    "unknownError": "เกิดข้อผิดพลาดไม่ทราบสาเหตุ"
+  },
+  "dashboard": {
+    "title": "แดชบอร์ด",
+    "welcome": "ยินดีต้อนรับสู่ระบบ Internal Checklist",
+    "selectMenu": "กรุณาเลือกเมนูเพื่อดำเนินการต่อ",
+    "checklistsMenu": "เช็คลิสต์",
+    "checklistsMenuDesc": "สร้างและจัดการเช็คลิสต์รายวัน รายสัปดาห์ และรายเดือน",
+    "tasksMenu": "งาน",
+    "tasksMenuDesc": "จัดการและติดตามรายการงาน",
+    "userManagement": "จัดการผู้ใช้",
+    "userManagementDesc": "จัดการผู้ใช้ระบบและสิทธิ์การเข้าถึง",
+    "taskReviewMenu": "รีวิวงาน",
+    "taskReviewMenuDesc": "ตรวจสอบและอนุมัติงานที่เสร็จสิ้นแล้ว"
+  },
+  "checklists": {
+    "title": "เช็คลิสต์",
+    "pageTitle": "เลือกประเภท Checklist",
+    "pageSubtitle": "เลือกประเภทงานที่ต้องการตรวจสอบเพื่อสร้าง session ใหม่",
+    "selectType": "เลือกประเภท Checklist ที่คุณต้องการตรวจสอบ",
+    "daily": "Daily Checklist",
+    "dailyDesc": "ตรวจสอบงานประจำวันเพื่อความเรียบร้อยและประสิทธิภาพในการทำงาน",
+    "weekly": "Weekly Checklist",
+    "weeklyDesc": "ตรวจสอบงานประจำสัปดาห์เพื่อความเรียบร้อยและประสิทธิภาพในการทำงาน",
+    "monthly": "Monthly Checklist",
+    "monthlyDesc": "ตรวจสอบงานประจำเดือนเพื่อความเรียบร้อยและประสิทธิภาพในการทำงาน"
+  },
+  "tasks": {
+    "title": "Task List",
+    "subtitle": "ตารางรายการงานจากระบบ",
+    "addNew": "เพิ่มรายการใหม่",
+    "pageTitle": "Tasks"
+  },
+  "users": {
+    "title": "Users",
+    "pageTitle": "Users Page"
+  },
+  "taskReview": {
+    "title": "รีวิวงาน",
+    "subtitle": "ตรวจสอบและอนุมัติงานที่ดำเนินการแล้ว",
+    "daily": "รายวัน",
+    "weekly": "รายสัปดาห์",
+    "monthly": "รายเดือน",
+    "saveSuccess": "บันทึกผลการรีวิวสำเร็จ",
+    "saveError": "เกิดข้อผิดพลาด: {{message}}"
+  },
+  "header": {
+    "undefinedUser": "undefined user",
+    "language": "ภาษา",
+    "theme": "ธีม",
+    "lightMode": "โหมดสว่าง",
+    "darkMode": "โหมดมืด",
+    "profile": "โปรไฟล์",
+    "logout": "ออกจากระบบ",
+    "selectBranch": "เลือกสาขา",
+    "menu": "เมนู",
+    "systemName": "Internal Checklist",
+    "welcome": "ยินดีต้อนรับ",
+    "branch": "สาขา",
+    "switchToEnglish": "Switch to English",
+    "switchToThai": "เปลี่ยนเป็นภาษาไทย"
+  },
+  "dialog": {
+    "confirmDelete": "ยืนยันการลบ",
+    "confirmDeleteMessage": "ต้องการลบงาน \"{{title}}\" ใช่หรือไม่?",
+    "saving": "กำลังบันทึก...",
+    "approve": "อนุมัติ",
+    "approved": "อนุมัติแล้ว",
+    "reject": "ปฏิเสธ",
+    "rejected": "ปฏิเสธแล้ว",
+    "saveReview": "บันทึกผลการรีวิว"
+  },
+  "taskForm": {
+    "taskNameRequired": "กรุณากรอกชื่อรายการตรวจสอบ",
+    "timeSlotRequired": "กรุณาเลือกช่วงเวลาสำหรับงานรายวัน",
+    "updateSuccess": "อัปเดตรายการสำเร็จ",
+    "createSuccess": "สร้างรายการใหม่สำเร็จ"
+  },
+  "example": {
+    "saveSuccess": "บันทึกข้อมูลสำเร็จ",
+    "saveError": "เกิดข้อผิดพลาดในการบันทึก",
+    "confirmSuccess": "ยืนยันสำเร็จ",
+    "createUserSuccess": "สร้าง user สำเร็จ",
+    "updateUserSuccess": "แก้ไข user สำเร็จ",
+    "deleteUserSuccess": "ลบ user สำเร็จ",
+    "errorOccurred": "เกิดข้อผิดพลาด: {{message}}"
   }
 }

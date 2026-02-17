@@ -6,38 +6,38 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useCheckTaskSessionExists, useCreateTaskSession } from "@/hooks/api/useTaskSession";
-import { use, useEffect, useState } from "react";
-
-const checklistCard = [
-    {
-        type: "Daily Checklist",
-        description: "ตรวจสอบงานประจำวันเพื่อความเรียบร้อยและประสิทธิภาพในการทำงาน",
-        icon: CalendarTodayIcon,
-        id: "DAILY",
-        gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-        color: "#667eea",
-    },
-    {
-        type: "Weekly Checklist",
-        description: "ตรวจสอบงานประจำสัปดาห์เพื่อความเรียบร้อยและประสิทธิภาพในการทำงาน",
-        icon: DateRangeIcon,
-        id: "WEEKLY",
-        gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-        color: "#f093fb",
-    },
-    {
-        type: "Monthly Checklist",
-        description: "ตรวจสอบงานประจำเดือนเพื่อความเรียบร้อยและประสิทธิภาพในการทำงาน",
-        icon: EventNoteIcon,
-        id: "MONTHLY",
-        gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-        color: "#4facfe",
-    }
-];
+import { useTranslation } from "react-i18next";
 
 export default function ChecklistsCardPage() {
     const router = useRouter();
+    const { t } = useTranslation();
+
+    const checklistCard = [
+        {
+            type: t('checklists.daily'),
+            description: t('checklists.dailyDesc'),
+            icon: CalendarTodayIcon,
+            id: "DAILY",
+            gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+            color: "#667eea",
+        },
+        {
+            type: t('checklists.weekly'),
+            description: t('checklists.weeklyDesc'),
+            icon: DateRangeIcon,
+            id: "WEEKLY",
+            gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+            color: "#f093fb",
+        },
+        {
+            type: t('checklists.monthly'),
+            description: t('checklists.monthlyDesc'),
+            icon: EventNoteIcon,
+            id: "MONTHLY",
+            gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+            color: "#4facfe",
+        }
+    ];
 
     const handleCardClick = (id: string) => {
         router.push(`/checklists/${id.toLowerCase()}`);
@@ -57,10 +57,10 @@ export default function ChecklistsCardPage() {
                         WebkitTextFillColor: "transparent",
                     }}
                 >
-                    Checklists
+                    {t('checklists.title')}
                 </Typography>
                 <Typography variant="body1" color="text.secondary">
-                    เลือกประเภท Checklist ที่คุณต้องการตรวจสอบ
+                    {t('checklists.selectType')}
                 </Typography>
             </Box>
 

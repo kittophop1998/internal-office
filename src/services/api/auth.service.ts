@@ -12,7 +12,7 @@ export interface AuthResponse {
 
 export interface UserInfo {
     id?: string;
-    fullname: string;
+    fullName: string;
     role: string;
     position: string;
     positionName?: string | null;
@@ -29,13 +29,11 @@ export interface UserInfo {
 export class AuthService extends BaseApiService {
     private static readonly BASE_PATH = '/auth';
 
-    /**
-     * Login API
-     */
     static async login(credentials: LoginCredentials): Promise<AuthResponse> {
-        return this.post<AuthResponse, LoginCredentials>(
-            `${this.BASE_PATH}/login`,
-            credentials
-        );
+        return this.post<AuthResponse, LoginCredentials>(`${this.BASE_PATH}/login`, credentials);
+    }
+
+    static async logout(): Promise<void> {
+        return this.post<void, void>(`${this.BASE_PATH}/logout`);
     }
 }

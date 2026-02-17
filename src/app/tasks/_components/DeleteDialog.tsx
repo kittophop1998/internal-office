@@ -8,6 +8,7 @@ import {
     DialogTitle,
     Typography,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 interface DeleteTaskDialogProps {
     open: boolean;
@@ -24,17 +25,19 @@ export default function DeleteTaskDialog({
     onClose,
     onConfirm,
 }: DeleteTaskDialogProps) {
+    const { t } = useTranslation();
+    
     return (
         <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
-            <DialogTitle>ยืนยันการลบ</DialogTitle>
+            <DialogTitle>{t('dialog.confirmDelete')}</DialogTitle>
             <DialogContent>
                 <Typography variant="body2" color="text.secondary">
-                    {`ต้องการลบงาน "${taskTitle}" ใช่หรือไม่?`}
+                    {t('dialog.confirmDeleteMessage', { title: taskTitle })}
                 </Typography>
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose} disabled={loading}>
-                    ยกเลิก
+                    {t('common.cancel')}
                 </Button>
                 <Button
                     onClick={onConfirm}
@@ -42,7 +45,7 @@ export default function DeleteTaskDialog({
                     variant="contained"
                     disabled={loading}
                 >
-                    ลบ
+                    {t('common.delete')}
                 </Button>
             </DialogActions>
         </Dialog>

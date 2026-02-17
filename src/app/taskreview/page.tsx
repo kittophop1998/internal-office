@@ -2,16 +2,17 @@
 
 import { Card } from "@/components/common";
 import { MainLayout } from "@/components/layouts";
-import { useTaskSession } from "@/hooks/api/useTaskSession";
 import { useTaskReview, useUpdateTaskReview } from "@/hooks/api/useTaskReview";
 import { Box, CardContent, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
 import TaskSessionReviewDataGrid from "./_components/TaskSessionReviewDataGrid";
 import { useNotification } from "@/hooks/useNotification";
+import { useTranslation } from "react-i18next";
 
 export default function TaskReviewPage() {
     const [activeTab, setActiveTab] = useState("DAILY");
     const { showSuccess, showError } = useNotification();
+    const { t } = useTranslation();
 
     const handleTabChange = (_event: React.SyntheticEvent, newValue: string) => {
         setActiveTab(newValue);
@@ -20,11 +21,11 @@ export default function TaskReviewPage() {
     const { data: tasksReview, refetch } = useTaskReview({ type: activeTab, branchId: typeof window !== 'undefined' ? parseInt(localStorage.getItem('currentBranchId') || '0') : 0 });
     const { mutate: saveReviews } = useUpdateTaskReview({
         onSuccess: () => {
-            showSuccess("บันทึกผลการรีวิวสำเร็จ");
+            showSuccess(t('taskReview.saveSuccess'));
             refetch();
         },
         onError: (error) => {
-            showError(`เกิดข้อผิดพลาด: ${error.message}`);
+            showError(t('taskReview.saveError', { message: error.message }));
         }
     });
 
@@ -35,7 +36,7 @@ export default function TaskReviewPage() {
     };
 
     return (
-        <MainLayout title="Task Review" backUrl="/dashboard" showBackButton>
+        <MainLayout title={t('taskReview.title')} backUrl="/dashboard" showBackButton>
             {/* Page Header */}
             <Stack
                 direction={{ xs: "column", sm: "row" }}
@@ -46,10 +47,10 @@ export default function TaskReviewPage() {
             >
                 <Box>
                     <Typography variant="h5" fontWeight={600}>
-                        รีวิวงาน
+                        {t('taskReview.title')}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        ตรวจสอบและอนุมัติงานที่ดำเนินการแล้ว
+                        {t('taskReview.subtitle')}
                     </Typography>
                 </Box>
             </Stack>
@@ -65,9 +66,9 @@ export default function TaskReviewPage() {
                         scrollButtons="auto"
                         sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}
                     >
-                        <Tab label="รายวัน" value="DAILY" />
-                        <Tab label="รายสัปดาห์" value="WEEKLY" />
-                        <Tab label="รายเดือน" value="MONTHLY" />
+                        <Tab label={t('taskReview.daily')} value="DAILY" />
+                        <Tab label={t('taskReview.weekly')} value="WEEKLY" />
+                        <Tab label={t('taskReview.monthly')} value="MONTHLY" />
                     </Tabs>
 
                     <TaskSessionReviewDataGrid 

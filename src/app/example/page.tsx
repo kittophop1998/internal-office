@@ -22,11 +22,11 @@ export default function ExamplePage() {
   const [loading, setLoading] = useState(false);
 
   const handleShowSuccess = () => {
-    showSuccess('บันทึกข้อมูลสำเร็จ', t('common.success'));
+    showSuccess(t('example.saveSuccess'), t('common.success'));
   };
 
   const handleShowError = () => {
-    showError('เกิดข้อผิดพลาดในการบันทึก', t('common.error'));
+    showError(t('example.saveError'), t('common.error'));
   };
 
   const handleShowInfo = () => {
@@ -39,7 +39,7 @@ export default function ExamplePage() {
   };
 
   return (
-    <MainLayout title="Example Page" showSidebar>
+    <MainLayout title="Example Page">
       <Container maxWidth="lg">
         <Box sx={{ my: 4 }}>
           <Typography variant="h3" component="h1" gutterBottom>
@@ -125,7 +125,7 @@ export default function ExamplePage() {
         onClose={() => setModalOpen(false)}
         onConfirm={() => {
           setModalOpen(false);
-          showSuccess('ยืนยันสำเร็จ');
+          showSuccess(t('example.confirmSuccess'));
         }}
       >
         <Typography>

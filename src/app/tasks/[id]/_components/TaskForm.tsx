@@ -36,6 +36,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import WorkIcon from "@mui/icons-material/Work";
 import { useTask, useCreateTask, useUpdateTask } from "@/hooks/api/useTask";
 import { useUsers } from "@/hooks/api/useUser";
+import { useTranslation } from "react-i18next";
 
 // ===== Types =====
 type TaskTypeApi = "DAILY" | "WEEKLY" | "MONTHLY";
@@ -94,6 +95,7 @@ interface TaskFormProps {
 export default function TaskForm({ mode, taskId }: TaskFormProps) {
     const router = useRouter();
     const queryClient = useQueryClient();
+    const { t } = useTranslation();
 
     const { data: taskData, isLoading: isLoadingTask, isError } = useTask(taskId ?? 0, {
         enabled: mode === "edit" && !!taskId,
@@ -200,7 +202,7 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
         if (!taskName.trim()) {
             setSnackbar({
                 open: true,
-                message: "กรุณากรอกชื่อรายการตรวจสอบ",
+                message: t('taskForm.taskNameRequired'),
                 severity: "error",
             });
             return;
@@ -209,7 +211,7 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
         if (taskType === "DAILY" && !taskSubType) {
             setSnackbar({
                 open: true,
-                message: "กรุณาเลือกช่วงเวลาสำหรับงานรายวัน",
+                message: t('taskForm.timeSlotRequired'),
                 severity: "error",
             });
             return;
@@ -235,7 +237,7 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
 
             setSnackbar({
                 open: true,
-                message: mode === "edit" ? "อัปเดตรายการสำเร็จ" : "สร้างรายการใหม่สำเร็จ",
+                message: mode === "edit" ? t('taskForm.updateSuccess') : t('taskForm.createSuccess'),
                 severity: "success",
             });
             setTimeout(() => router.push("/tasks"), 900);
@@ -243,7 +245,7 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
             console.error("Failed to save task:", error);
             setSnackbar({
                 open: true,
-                message: "เกิดข้อผิดพลาดในการบันทึกข้อมูล",
+                message: t('example.saveError'),
                 severity: "error",
             });
         }

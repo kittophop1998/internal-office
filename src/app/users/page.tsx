@@ -1,9 +1,14 @@
+"use client";
+
 import { MainLayout } from "@/components/layouts";
+import { useTranslation } from "react-i18next";
 
 export default function UsersPage() {
+    const { t } = useTranslation();
+    
     return (
-        <MainLayout title="Users" backUrl="/dashboard" showBackButton>
-            <h1>Users Page</h1>
+        <MainLayout title={t('users.title')} backUrl="/dashboard" showBackButton>
+            <h1>{t('users.pageTitle')}</h1>
         </MainLayout>
     );
 }

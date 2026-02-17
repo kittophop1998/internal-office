@@ -14,17 +14,123 @@
     "success": "Success",
     "confirm": "Confirm",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "back": "Back",
+    "addNew": "Add New"
   },
   "validation": {
     "required": "This field is required",
     "email": "Invalid email format",
     "minLength": "Minimum length is {{min}} characters",
-    "maxLength": "Maximum length is {{max}} characters"
+    "maxLength": "Maximum length is {{max}} characters",
+    "usernameRequired": "Please enter username",
+    "usernameMinLength": "Username must be at least 3 characters",
+    "passwordRequired": "Please enter password",
+    "passwordMinLength": "Password must be at least 6 characters"
   },
   "navigation": {
     "home": "Home",
     "about": "About",
-    "contact": "Contact"
+    "contact": "Contact",
+    "dashboard": "Dashboard",
+    "checklists": "Checklists",
+    "tasks": "Tasks",
+    "users": "Users",
+    "taskReview": "Task Review"
+  },
+  "login": {
+    "title": "Welcome",
+    "subtitle": "Please enter your information to login",
+    "username": "Username",
+    "password": "Password",
+    "loginButton": "Login",
+    "loginSuccess": "Login successful",
+    "loginError": "Error occurred",
+    "unknownError": "Unknown error occurred"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome to the Internal Checklist System",
+    "selectMenu": "Please select a menu to continue",
+    "checklistsMenu": "Checklists",
+    "checklistsMenuDesc": "Create and manage daily, weekly, and monthly checklists",
+    "tasksMenu": "Tasks",
+    "tasksMenuDesc": "Manage and track task lists",
+    "userManagement": "User Management",
+    "userManagementDesc": "Manage system users and permissions",
+    "taskReviewMenu": "Task Review",
+    "taskReviewMenuDesc": "Review and approve completed tasks"
+  },
+  "checklists": {
+    "title": "Checklists",
+    "pageTitle": "Select Checklist Type",
+    "pageSubtitle": "Select the type of work to check and create a new session",
+    "selectType": "Select the checklist type you want to check",
+    "daily": "Daily Checklist",
+    "dailyDesc": "Check daily tasks for efficiency and smooth operation",
+    "weekly": "Weekly Checklist",
+    "weeklyDesc": "Check weekly tasks for efficiency and smooth operation",
+    "monthly": "Monthly Checklist",
+    "monthlyDesc": "Check monthly tasks for efficiency and smooth operation"
+  },
+  "tasks": {
+    "title": "Task List",
+    "subtitle": "Task list from system",
+    "addNew": "Add New Item",
+    "pageTitle": "Tasks"
+  },
+  "users": {
+    "title": "Users",
+    "pageTitle": "Users Page"
+  },
+  "taskReview": {
+    "title": "Task Review",
+    "subtitle": "Review and approve completed tasks",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "saveSuccess": "Review saved successfully",
+    "saveError": "Error occurred: {{message}}"
+  },
+  "header": {
+    "undefinedUser": "undefined user",
+    "language": "Language",
+    "theme": "Theme",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
+    "profile": "Profile",
+    "logout": "Logout",
+    "selectBranch": "Select Branch",
+    "menu": "Menu",
+    "systemName": "Internal Checklist",
+    "welcome": "Welcome",
+    "branch": "Branch",
+    "switchToEnglish": "Switch to English",
+    "switchToThai": "Switch to Thai"
+  },
+  "dialog": {
+    "confirmDelete": "Confirm Delete",
+    "confirmDeleteMessage": "Do you want to delete \"{{title}}\"?",
+    "saving": "Saving...",
+    "approve": "Approve",
+    "approved": "Approved",
+    "reject": "Reject",
+    "rejected": "Rejected",
+    "saveReview": "Save Review"
+  },
+  "taskForm": {
+    "taskNameRequired": "Please enter task name",
+    "timeSlotRequired": "Please select time slot for daily task",
+    "updateSuccess": "Task updated successfully",
+    "createSuccess": "Task created successfully"
+  },
+  "example": {
+    "saveSuccess": "Data saved successfully",
+    "saveError": "Error saving data",
+    "confirmSuccess": "Confirmed successfully",
+    "createUserSuccess": "User created successfully",
+    "updateUserSuccess": "User updated successfully",
+    "deleteUserSuccess": "User deleted successfully",
+    "errorOccurred": "Error occurred: {{message}}"
   }
 }

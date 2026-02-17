@@ -2,6 +2,7 @@ import { TaskSessionItem } from "@/services/api/tasksession.service";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
@@ -35,6 +36,7 @@ interface TaskRow {
 
 export default function TaskSessionReviewDataGrid({ tasks, onSave }: TaskSessionReviewDataGridProps) {
     const [reviewStates, setReviewStates] = useState<ReviewState>({});
+    const { t } = useTranslation();
 
     const handleApprove = (sessionId: number) => {
         setReviewStates(prev => ({
@@ -72,7 +74,7 @@ export default function TaskSessionReviewDataGrid({ tasks, onSave }: TaskSession
                             startIcon={<ThumbUpIcon />}
                             onClick={() => handleApprove(params.row.id)}
                         >
-                            Approved
+                            {t('dialog.approve')}
                         </Button>
                         <Button
                             variant={currentStatus === 'REJECT' ? 'contained' : 'outlined'}
@@ -81,13 +83,13 @@ export default function TaskSessionReviewDataGrid({ tasks, onSave }: TaskSession
                             startIcon={<ThumbDownIcon />}
                             onClick={() => handleReject(params.row.id)}
                         >
-                            Reject
+                            {t('dialog.reject')}
                         </Button>
                     </Stack>
                 );
             }
         }
-    ], [reviewStates]);
+    ], [reviewStates, t]);
 
     const summary = useMemo(() => {
         const approved = Object.values(reviewStates).filter(status => status === 'APPROVED').length;
@@ -126,19 +128,19 @@ export default function TaskSessionReviewDataGrid({ tasks, onSave }: TaskSession
             {/* Summary Section */}
             <Box sx={{ mt: 3, p: 2, bgcolor: 'background.paper', borderRadius: 1, border: '1px solid', borderColor: 'divider' }}>
                 <Typography variant="h6" gutterBottom>
-                    สรุปผลการรีวิว
+                    {t('taskReview.title')}
                 </Typography>
                 <Stack direction="row" spacing={3} sx={{ mb: 2 }}>
                     <Stack direction="row" spacing={1} alignItems="center">
                         <CheckCircleIcon color="success" />
                         <Typography variant="body1">
-                            Approved: <strong>{summary.approved}</strong>
+                            {t('dialog.approved')}: <strong>{summary.approved}</strong>
                         </Typography>
                     </Stack>
                     <Stack direction="row" spacing={1} alignItems="center">
                         <CancelIcon color="error" />
                         <Typography variant="body1">
-                            Reject: <strong>{summary.rejected}</strong>
+                            {t('dialog.rejected')}: <strong>{summary.rejected}</strong>
                         </Typography>
                     </Stack>
                     <Stack direction="row" spacing={1} alignItems="center">
@@ -158,7 +160,7 @@ export default function TaskSessionReviewDataGrid({ tasks, onSave }: TaskSession
                     onClick={handleSave}
                     disabled={summary.approved === 0 && summary.rejected === 0}
                 >
-                    บันทึกผลการรีวิว
+                    {t('dialog.saveReview')}
                 </Button>
             </Box>
         </>

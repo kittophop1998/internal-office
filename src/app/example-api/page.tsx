@@ -18,12 +18,14 @@ import {
 } from '@mui/material';
 import { useUsers, useCreateUser, useUpdateUser, useDeleteUser } from '@/hooks/api/useUsers';
 import type { CreateUserDto, UpdateUserDto } from '@/services/api/example-user.service';
+import { useTranslation } from 'react-i18next';
 
 /**
  * หน้าตัวอย่างการใช้งาน React Query กับ API
  * แสดงวิธีการ CRUD ข้อมูลด้วย custom hooks
  */
 export default function ExampleApiPage() {
+  const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -68,10 +70,10 @@ export default function ExampleApiPage() {
         setNewUserName('');
         setNewUserEmail('');
         setNewUserPassword('');
-        alert('สร้าง user สำเร็จ!');
+        alert(t('example.createUserSuccess'));
       },
       onError: (error) => {
-        alert(`เกิดข้อผิดพลาด: ${error.message}`);
+        alert(t('example.errorOccurred', { message: error.message }));
       },
     });
   };
@@ -93,10 +95,10 @@ export default function ExampleApiPage() {
           setEditingUserId(null);
           setEditUserName('');
           setEditUserEmail('');
-          alert('แก้ไข user สำเร็จ!');
+          alert(t('example.updateUserSuccess'));
         },
         onError: (error) => {
-          alert(`เกิดข้อผิดพลาด: ${error.message}`);
+          alert(t('example.errorOccurred', { message: error.message }));
         },
       }
     );
@@ -108,10 +110,10 @@ export default function ExampleApiPage() {
 
     deleteUserMutation.mutate(id, {
       onSuccess: () => {
-        alert('ลบ user สำเร็จ!');
+        alert(t('example.deleteUserSuccess'));
       },
       onError: (error) => {
-        alert(`เกิดข้อผิดพลาด: ${error.message}`);
+        alert(t('example.errorOccurred', { message: error.message }));
       },
     });
   };
@@ -246,13 +248,13 @@ export default function ExampleApiPage() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setCreateDialogOpen(false)}>ยกเลิก</Button>
+          <Button onClick={() => setCreateDialogOpen(false)}>{t('common.cancel')}</Button>
           <Button
             onClick={handleCreateUser}
             variant="contained"
             disabled={createUserMutation.isPending}
           >
-            {createUserMutation.isPending ? 'กำลังสร้าง...' : 'สร้าง'}
+            {createUserMutation.isPending ? `${t('common.loading')}` : t('common.add')}
           </Button>
         </DialogActions>
       </Dialog>
@@ -278,13 +280,13 @@ export default function ExampleApiPage() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setEditDialogOpen(false)}>ยกเลิก</Button>
+          <Button onClick={() => setEditDialogOpen(false)}>{t('common.cancel')}</Button>
           <Button
             onClick={handleUpdateUser}
             variant="contained"
             disabled={updateUserMutation.isPending}
           >
-            {updateUserMutation.isPending ? 'กำลังบันทึก...' : 'บันทึก'}
+            {updateUserMutation.isPending ? t('dialog.saving') : t('common.save')}
           </Button>
         </DialogActions>
       </Dialog>

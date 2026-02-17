@@ -6,13 +6,15 @@ import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/navigation";
 import { useTasks } from "@/hooks/api/useTask";
 import TaskDataGrid from "./_components/TaskDataGrid";
+import { useTranslation } from "react-i18next";
 
 export default function TaskPage() {
     const router = useRouter();
     const { data } = useTasks();
+    const { t } = useTranslation();
 
     return (
-        <MainLayout title="Tasks" showBackButton backUrl="/dashboard">
+        <MainLayout title={t('tasks.pageTitle')} showBackButton backUrl="/dashboard">
             <Stack
                 direction={{ xs: "column", sm: "row" }}
                 justifyContent="space-between"
@@ -22,10 +24,10 @@ export default function TaskPage() {
             >
                 <Box>
                     <Typography variant="h5" fontWeight={600}>
-                        Task List
+                        {t('tasks.title')}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        ตารางรายการงานจากระบบ
+                        {t('tasks.subtitle')}
                     </Typography>
                 </Box>
                 <Button
@@ -34,7 +36,7 @@ export default function TaskPage() {
                     onClick={() => router.push("/tasks/new")}
                     sx={{ borderRadius: 2, px: 3, fontWeight: 600 }}
                 >
-                    เพิ่มรายการใหม่
+                    {t('tasks.addNew')}
                 </Button>
             </Stack>
 

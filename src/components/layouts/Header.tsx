@@ -44,11 +44,9 @@ export default function Header({
 
     const { logout } = useLogout();
 
-    // Track client-side hydration completion to prevent hydration mismatch
     useEffect(() => {
         setIsMounted(true);
         
-        // Load branch from localStorage
         const storedBranchId = localStorage.getItem("currentBranchId");
         if (storedBranchId) {
             setCurrentBranchId(storedBranchId);
@@ -73,7 +71,7 @@ export default function Header({
 
     const currentUserName = useMemo(() => {
         if (!isMounted) {
-            return "undefined user";
+            return t('header.undefinedUser');
         }
 
         if (typeof window !== "undefined") {
@@ -81,19 +79,15 @@ export default function Header({
             if (userStr) {
                 try {
                     const user = JSON.parse(userStr);
-                    return (
-                        user.fullname ||
-                        `${user.firstName || ''} ${user.lastName || ''}`.trim() ||
-                        "undefined user"
-                    );
+                    return ( user.fullName || t('header.undefinedUser') );
                 } catch (e) {
                     console.error("Parse error:", e);
                 }
             }
         }
 
-        return "undefined user";
-    }, [isMounted]);
+        return t('header.undefinedUser');
+    }, [isMounted, t]);
 
     const branchName = useMemo(() => {
         if (currentBranchId && branches.length > 0) {
@@ -226,7 +220,7 @@ export default function Header({
                                         fontSize: '0.875rem'
                                     }}
                                 >
-                                    เลือกสาขา
+                                    {t('header.selectBranch')}
                                 </Button>
                             )}
                         </Box>
@@ -365,8 +359,8 @@ export default function Header({
                             <StoreIcon />
                         </ListItemIcon>
                         <ListItemText 
-                            primary={branchName || "เลือกสาขา"} 
-                            secondary="สาขา"
+                            primary={branchName || t('header.selectBranch')} 
+                            secondary={t('header.branch')}
                             onClick={() => {
                                 setOpenBranchDialog(true);
                                 setMobileMenuOpen(false);
@@ -386,7 +380,7 @@ export default function Header({
                             {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
                         </ListItemIcon>
                         <ListItemText 
-                            primary={mode === 'dark' ? 'โหมดสว่าง' : 'โหมดมืด'} 
+                            primary={mode === 'dark' ? t('header.lightMode') : t('header.darkMode')} 
                         />
                     </ListItem>
 
@@ -396,7 +390,7 @@ export default function Header({
                             <LanguageIcon />
                         </ListItemIcon>
                         <ListItemText 
-                            primary="ภาษา" 
+                            primary={t('header.language')} 
                             secondary={i18n.language === 'th' ? 'ไทย' : 'English'}
                         />
                     </ListItem>
@@ -409,7 +403,7 @@ export default function Header({
                             variant="outlined"
                             sx={{ textTransform: 'none' }}
                         >
-                            {i18n.language === 'th' ? 'Switch to English' : 'เปลี่ยนเป็นภาษาไทย'}
+                            {i18n.language === 'th' ? t('header.switchToEnglish') : t('header.switchToThai')}
                         </Button>
                     </Box>
 
@@ -432,7 +426,7 @@ export default function Header({
                             <LogoutIcon sx={{ color: 'error.main' }} />
                         </ListItemIcon>
                         <ListItemText 
-                            primary="ออกจากระบบ" 
+                            primary={t('header.logout')} 
                             primaryTypographyProps={{ color: 'error.main' }}
                         />
                     </ListItem>

@@ -8,7 +8,6 @@ export function useAuth(
     return useMutation<AuthResponse, Error, LoginCredentials>({
         mutationFn: (credentials) => AuthService.login(credentials),
         onSuccess: async (data, variables, context, ...rest) => {
-            localStorage.setItem('accessToken', data.accessToken);
             localStorage.setItem('user', JSON.stringify(data.user));
 
             await options?.onSuccess?.(data, variables, context, ...rest);
@@ -21,10 +20,10 @@ export function useLogout() {
     const router = useRouter();
 
     const logout = () => {
-        localStorage.removeItem('accessToken');
+        AuthService.logout();
         localStorage.removeItem('user');
         localStorage.removeItem('currentBranchId');
-        router.push('/login');
+        router.push('/');
     };
 
     return { logout };

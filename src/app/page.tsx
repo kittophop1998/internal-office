@@ -21,6 +21,7 @@ import {
 import { Card, Button, TextField, Notification } from '@/components/common';
 import { useAuth } from '@/hooks/api/useAuth';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 
 interface LoginFormData {
   username: string;
@@ -29,6 +30,7 @@ interface LoginFormData {
 
 export default function Home() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notification, setNotification] = useState({
@@ -52,15 +54,15 @@ export default function Home() {
       await loginMutation.mutate(data);
       setNotification({
         open: true,
-        message: 'เข้าสู่ระบบสำเร็จ',
+        message: t('login.loginSuccess'),
         severity: 'success',
-        title: 'สำเร็จ'
+        title: t('common.success')
       });
       setTimeout(() => {
         router.push('/dashboard');
       }, 1500);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'เกิดข้อผิดพลาดไม่ทราบสาเหตุ');
+      setError(err instanceof Error ? err.message : t('login.unknownError'));
     }
   };
 
@@ -95,7 +97,7 @@ export default function Home() {
                   color: 'primary.main',
                 }}
               >
-                ยินดีต้อนรับ
+                {t('login.title')}
               </Typography>
               <Typography
                 variant="body2"
@@ -103,7 +105,7 @@ export default function Home() {
                   color: 'text.secondary',
                 }}
               >
-                กรุณากรอกข้อมูลเพื่อเข้าสู่ระบบ
+                {t('login.subtitle')}
               </Typography>
             </Box>
 
@@ -111,7 +113,7 @@ export default function Home() {
             <Box component="form" onSubmit={handleSubmit(onSubmit)}>
               {error && (
                 <Alert severity="error" sx={{ mb: 3 }}>
-                  <AlertTitle>เกิดข้อผิดพลาด</AlertTitle>
+                  <AlertTitle>{t('login.loginError')}</AlertTitle>
                   {error}
                 </Alert>
               )}
@@ -120,13 +122,13 @@ export default function Home() {
                 name="username"
                 control={control}
                 fullWidth
-                label="ชื่อผู้ใช้"
+                label={t('login.username')}
                 variant="outlined"
                 rules={{
-                  required: 'กรุณากรอกชื่อผู้ใช้',
+                  required: t('validation.usernameRequired'),
                   minLength: {
                     value: 3,
-                    message: 'ชื่อผู้ใช้ต้องมีอย่างน้อย 3 ตัวอักษร'
+                    message: t('validation.usernameMinLength')
                   }
                 }}
                 error={!!errors.username}
@@ -148,14 +150,14 @@ export default function Home() {
                 name="password"
                 control={control}
                 fullWidth
-                label="รหัสผ่าน"
+                label={t('login.password')}
                 type={showPassword ? 'text' : 'password'}
                 variant="outlined"
                 rules={{
-                  required: 'กรุณากรอกรหัสผ่าน',
+                  required: t('validation.passwordRequired'),
                   minLength: {
                     value: 6,
-                    message: 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร'
+                    message: t('validation.passwordMinLength')
                   }
                 }}
                 error={!!errors.password}
@@ -200,7 +202,7 @@ export default function Home() {
                   },
                 }}
               >
-                เข้าสู่ระบบ
+                {t('login.loginButton')}
               </Button>
             </Box>
           </CardContent>
