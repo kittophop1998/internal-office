@@ -76,9 +76,6 @@ export default function DashboardPage() {
     return (
         <MainLayout title="Dashboard" showBackButton={false}>
             <Box sx={{ mb: 6, textAlign: 'center' }}>
-                <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 700, color: 'primary.main', mb: 2 }}>
-                    {t('dashboard.title')}
-                </Typography>
                 <Typography variant="h6" color="text.secondary" sx={{ mb: 1 }}>
                     {t('dashboard.welcome')}
                 </Typography>

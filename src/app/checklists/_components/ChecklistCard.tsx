@@ -45,25 +45,6 @@ export default function ChecklistsCardPage() {
 
     return (
         <Box sx={{ width: "100%", py: 2 }}>
-            {/* Header */}
-            <Box sx={{ mb: 4 }}>
-                <Typography 
-                    variant="h4" 
-                    sx={{ 
-                        fontWeight: 700,
-                        mb: 1,
-                        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                    }}
-                >
-                    {t('checklists.title')}
-                </Typography>
-                <Typography variant="body1" color="text.secondary">
-                    {t('checklists.selectType')}
-                </Typography>
-            </Box>
-
             {/* Cards Grid */}
             <Box sx={{ 
                 display: "grid", 
