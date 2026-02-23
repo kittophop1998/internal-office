@@ -20,10 +20,17 @@ export interface Branch {
     location: string;
 }
 
+export interface TaskGroup {
+    id: number;
+    name: string;
+    percent_weight: number;
+}
+
 export interface MasterDataResponse {
     departments: Department[];
     positions: Position[];
     branches: Branch[];
+    taskGroups: TaskGroup[];
 };
 
 export class MasterDataService extends BaseApiService {
@@ -42,5 +49,10 @@ export class MasterDataService extends BaseApiService {
     static async getPositions() {
         const response = await this.get<MasterDataResponse>(`${this.BASE_PATH}`);
         return response.positions;
+    }
+
+    static async getTaskGroups() {
+        const response = await this.get<MasterDataResponse>(`${this.BASE_PATH}`);
+        return response.taskGroups;
     }
 }
