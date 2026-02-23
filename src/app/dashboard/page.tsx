@@ -75,16 +75,35 @@ export default function DashboardPage() {
 
     return (
         <MainLayout title="Dashboard" showBackButton={false}>
-            <Box sx={{ mb: 6, textAlign: 'center' }}>
-                <Typography variant="h6" color="text.secondary" sx={{ mb: 1 }}>
+            <Box sx={{ mb: { xs: 3, sm: 6 }, textAlign: 'center', px: { xs: 1, sm: 0 } }}>
+                <Typography
+                    variant="h6"
+                    color="text.secondary"
+                    sx={{ mb: 1, fontSize: { xs: '1rem', sm: '1.25rem' } }}
+                >
                     {t('dashboard.welcome')}
                 </Typography>
-                <Typography variant="body1" color="text.secondary">
+                <Typography
+                    variant="body1"
+                    color="text.secondary"
+                    sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}
+                >
                     {t('dashboard.selectMenu')}
                 </Typography>
             </Box>
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)' }, gap: 3 }}>
+            <Box
+                sx={{
+                    display: 'grid',
+                    gridTemplateColumns: {
+                        xs: 'repeat(2, 1fr)',
+                        sm: 'repeat(2, 1fr)',
+                        md: 'repeat(2, 1fr)',
+                    },
+                    gap: { xs: 2, sm: 3 },
+                    px: { xs: 0, sm: 0 },
+                }}
+            >
                 {filteredMenuItems
                     .filter((item) => item.isActive)
                     .map((item) => {
@@ -97,23 +116,74 @@ export default function DashboardPage() {
                                     height: '100%',
                                     transition: 'all 0.3s ease-in-out',
                                     '&:hover': {
-                                        transform: 'translateY(-8px)',
-                                        boxShadow: 6,
+                                        transform: { xs: 'none', sm: 'translateY(-8px)' },
+                                        boxShadow: { xs: 2, sm: 6 },
                                     },
+                                    '&:active': {
+                                        transform: 'scale(0.97)',
+                                        boxShadow: 1,
+                                    },
+                                    borderRadius: { xs: 3, sm: 2 },
                                 }}
                             >
                                 <CardActionArea
                                     onClick={() => handleMenuClick(item.path, item.isActive)}
-                                    sx={{ height: '100%', p: 2 }}
+                                    sx={{ height: '100%', p: { xs: 1, sm: 2 } }}
                                 >
-                                    <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: 200, textAlign: 'center' }}>
-                                        <Box sx={{ width: 80, height: 80, borderRadius: '50%', bgcolor: `${item.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3 }}>
-                                            <IconComponent sx={{ fontSize: 40, color: item.color }} />
+                                    <CardContent
+                                        sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            minHeight: { xs: 140, sm: 200 },
+                                            textAlign: 'center',
+                                            p: { xs: 1, sm: 2 },
+                                            '&:last-child': { pb: { xs: 1, sm: 2 } },
+                                        }}
+                                    >
+                                        <Box
+                                            sx={{
+                                                width: { xs: 56, sm: 80 },
+                                                height: { xs: 56, sm: 80 },
+                                                borderRadius: '50%',
+                                                bgcolor: `${item.color}15`,
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                mb: { xs: 1.5, sm: 3 },
+                                            }}
+                                        >
+                                            <IconComponent
+                                                sx={{
+                                                    fontSize: { xs: 28, sm: 40 },
+                                                    color: item.color,
+                                                }}
+                                            />
                                         </Box>
-                                        <Typography variant="h5" component="h2" gutterBottom sx={{ fontWeight: 600, color: 'text.primary', mb: 1 }}>
+                                        <Typography
+                                            variant="h5"
+                                            component="h2"
+                                            gutterBottom
+                                            sx={{
+                                                fontWeight: 600,
+                                                color: 'text.primary',
+                                                mb: { xs: 0.5, sm: 1 },
+                                                fontSize: { xs: '0.95rem', sm: '1.5rem' },
+                                                lineHeight: 1.3,
+                                            }}
+                                        >
                                             {t(`dashboard.${item.key}`)}
                                         </Typography>
-                                        <Typography variant="body2" color="text.secondary" sx={{ px: 2 }}>
+                                        <Typography
+                                            variant="body2"
+                                            color="text.secondary"
+                                            sx={{
+                                                px: { xs: 0, sm: 2 },
+                                                fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                                                display: { xs: 'none', sm: 'block' },
+                                            }}
+                                        >
                                             {t(`dashboard.${item.key}Desc`)}
                                         </Typography>
                                     </CardContent>

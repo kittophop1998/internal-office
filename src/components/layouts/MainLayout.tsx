@@ -22,7 +22,7 @@ export default function MainLayout({
                 title={title}
             />
 
-            <Box component="main" sx={{ flex: 1, px: 2, pb: 4 }}>
+            <Box component="main" sx={{ flex: 1, px: { xs: 1.5, sm: 2 }, pb: 4 }}>
                 {children}
             </Box>
         </Box>

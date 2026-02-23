@@ -157,10 +157,8 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
     // Ref to track current taskId to detect changes
     const prevTaskIdRef = useRef<number | undefined>(undefined);
 
-    // Update form fields when taskData changes (fresh data loaded)
     useEffect(() => {
         if (mode === "edit" && taskData) {
-            // Check if this is new data (either first load or taskId changed)
             const isNewData = prevTaskIdRef.current !== taskId;
             
             if (isNewData) {
@@ -564,6 +562,7 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
                                 )}
                             >
                                 {filteredUsers?.map((user) => (
+                                    console.log("Rendering user in dropdown:", user),
                                     <MenuItem key={user.id} value={user.id}>
                                         <Checkbox checked={selectedUserIds.indexOf(String(user.id)) > -1} />
                                         <ListItemAvatar>

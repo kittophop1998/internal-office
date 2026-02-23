@@ -34,7 +34,6 @@ export const getTheme = (mode: PaletteMode) => createTheme({
     },
     typography: {
         fontFamily: [
-            'var(--font-geist-sans)',
             '-apple-system',
             'BlinkMacSystemFont',
             '"Segoe UI"',
