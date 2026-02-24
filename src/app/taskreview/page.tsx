@@ -1,9 +1,8 @@
 "use client";
 
-import { Card } from "@/components/common";
 import { MainLayout } from "@/components/layouts";
 import { useTaskReview, useUpdateTaskReview } from "@/hooks/api/useTaskReview";
-import { Box, CardContent, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Card, CardContent, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
 import TaskSessionReviewDataGrid from "./_components/TaskSessionReviewDataGrid";
 import { useNotification } from "@/hooks/useNotification";
@@ -37,7 +36,6 @@ export default function TaskReviewPage() {
 
     return (
         <MainLayout title={t('taskReview.title')} backUrl="/dashboard" showBackButton>
-            {/* Page Header */}
             <Stack
                 direction={{ xs: "column", sm: "row" }}
                 justifyContent="space-between"
@@ -55,16 +53,14 @@ export default function TaskReviewPage() {
                 </Box>
             </Stack>
 
-            {/* Content Card */}
             <Card>
                 <CardContent>
-                    {/* Tabs */}
                     <Tabs
                         value={activeTab}
                         onChange={handleTabChange}
                         variant="scrollable"
                         scrollButtons="auto"
-                        sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}
+                        sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}
                     >
                         <Tab label={t('taskReview.daily')} value="DAILY" />
                         <Tab label={t('taskReview.weekly')} value="WEEKLY" />

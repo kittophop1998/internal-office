@@ -7,10 +7,10 @@ export interface Department {
     createdAt: string;
 }
 
-export interface Position {
+export interface Role {
     id: number;
     code: string;
-    title: string;
+    name: string;
     description?: string;
 }
 
@@ -28,7 +28,7 @@ export interface TaskGroup {
 
 export interface MasterDataResponse {
     departments: Department[];
-    positions: Position[];
+    roles: Role[];
     branches: Branch[];
     taskGroups: TaskGroup[];
 };
@@ -46,9 +46,9 @@ export class MasterDataService extends BaseApiService {
         return response.departments;
     }
 
-    static async getPositions() {
+    static async getRoles() {
         const response = await this.get<MasterDataResponse>(`${this.BASE_PATH}`);
-        return response.positions;
+        return response.roles;
     }
 
     static async getTaskGroups() {

@@ -1,4 +1,4 @@
-import { Branch, Department, MasterDataService, Position, TaskGroup } from "@/services/api/master.service";
+import { Branch, Department, MasterDataService, Role, TaskGroup } from "@/services/api/master.service";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 
 export function useBranches(
@@ -15,18 +15,18 @@ export function useDepartments(
     options?: Omit<UseQueryOptions<Department[], Error>, 'queryKey' | 'queryFn'>
 ) {
     return useQuery<Department[], Error>({
-        queryKey: ['master'],
+        queryKey: ['master', 'department'],
         queryFn: () => MasterDataService.getDepartments(),
         ...options,
     })
 }
 
-export function usePositions(
-    options?: Omit<UseQueryOptions<Position[], Error>, 'queryKey' | 'queryFn'>
+export function useRoles(
+    options?: Omit<UseQueryOptions<Role[], Error>, 'queryKey' | 'queryFn'>
 ) {
-    return useQuery<Position[], Error>({
-        queryKey: ['master'],
-        queryFn: () => MasterDataService.getPositions(),
+    return useQuery<Role[], Error>({
+        queryKey: ['master', 'roles'],
+        queryFn: () => MasterDataService.getRoles(),
         ...options,
     })
 }

@@ -28,14 +28,18 @@ import {
     Stack,
     TextField,
     Typography,
+    useMediaQuery,
+    useTheme,
 } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import PersonIcon from "@mui/icons-material/Person";
 import CategoryIcon from "@mui/icons-material/Category";
 import WorkIcon from "@mui/icons-material/Work";
+import FolderIcon from "@mui/icons-material/Folder";
 import { useTask, useCreateTask, useUpdateTask } from "@/hooks/api/useTask";
 import { useUsers } from "@/hooks/api/useUser";
+import { useTaskGroups } from "@/hooks/api/useMaster";
 import { useTranslation } from "react-i18next";
 
 // ===== Types =====
@@ -96,11 +100,14 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
     const router = useRouter();
     const queryClient = useQueryClient();
     const { t } = useTranslation();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const { data: taskData, isLoading: isLoadingTask, isError } = useTask(taskId ?? 0, {
         enabled: mode === "edit" && !!taskId,
     });
     const { data: users = [] } = useUsers();
+    const { data: taskGroups = [] } = useTaskGroups();
     
     const createTaskMutation = useCreateTask();
     const updateTaskMutation = useUpdateTask();
@@ -111,12 +118,11 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
         }
     }, [mode, taskId, queryClient]);
 
-    // Compute initial form values based on mode and taskData
     const computeInitialValues = () => {
         if (mode === "edit" && taskData) {
             const userIds: string[] = [];
-            if (taskData.users && Array.isArray(taskData.users)) {
-                userIds.push(...taskData.users.map((u) => String(u.id)));
+            if (taskData.assignments && Array.isArray(taskData.assignments)) {
+                userIds.push(...taskData.assignments.map((u) => String(u.userId)));
             }
 
             return {
@@ -124,10 +130,11 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
                 taskDescription: taskData.description ?? "",
                 taskType: normalizeTaskType(taskData.type),
                 taskSubType: normalizeSubType(taskData.subtype),
-                sortOrder: taskData.sort_order ?? 1,
+                sortOrder: taskData.sortOrder ?? 1,
                 weight: (taskData.weight ?? "") as number | "",
                 selectedPosition: "all" as Positions,
                 selectedUserIds: userIds,
+                groupId: taskData.groupId ?? null,
             };
         }
         
@@ -143,6 +150,7 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
     const [weight, setWeight] = useState<number | "">(() => computeInitialValues()?.weight ?? "");
     const [selectedPosition, setSelectedPosition] = useState<Positions>(() => computeInitialValues()?.selectedPosition ?? "all");
     const [selectedUserIds, setSelectedUserIds] = useState<string[]>(() => computeInitialValues()?.selectedUserIds ?? []);
+    const [groupId, setGroupId] = useState<number | null>(() => computeInitialValues()?.groupId ?? null);
 
     const [snackbar, setSnackbar] = useState<{
         open: boolean;
@@ -173,6 +181,7 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
                     setSortOrder(initial.sortOrder);
                     setWeight(initial.weight);
                     setSelectedUserIds(initial.selectedUserIds);
+                    setGroupId(initial.groupId);
                 }
             }
         }
@@ -222,6 +231,7 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
             weight: weight === "" ? null : weight,
             users: selectedUserIds.map((id) => toUserIdValue(id)),
             position: selectedPosition,
+            groupId: groupId ?? null,
         };
 
         try {
@@ -285,10 +295,10 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
     
     if (isLoading) {
         return (
-            <Container maxWidth="xl" sx={{ py: 2 }}>
+            <Container maxWidth="xl" sx={{ py: { xs: 1, sm: 2 } }}>
                 <Stack spacing={2}>
                     <Skeleton variant="rectangular" height={56} sx={{ borderRadius: 2 }} />
-                    <Paper sx={{ p: 3, borderRadius: 4 }}>
+                    <Paper sx={{ p: { xs: 2, sm: 3 }, borderRadius: 4 }}>
                         <Stack spacing={3}>
                             <Skeleton variant="text" height={40} width="40%" />
                             <Skeleton variant="rectangular" height={56} sx={{ borderRadius: 2 }} />
@@ -307,9 +317,11 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
     }
 
     return (
-        <Container maxWidth="xl" sx={{ py: 2 }}>
-            <Stack direction="row" justifyContent="flex-end" sx={{ mb: 3 }}>
+        <Container maxWidth="xl" sx={{ py: { xs: 1, sm: 2 }, px: { xs: 1, sm: 3 } }}>
+            {/* Save Button */}
+            <Stack direction="row" justifyContent="flex-end" sx={{ mb: { xs: 2, sm: 3 } }}>
                 <Button
+                    fullWidth={isMobile}
                     variant="contained"
                     startIcon={
                         isSaving ? (
@@ -328,14 +340,20 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
 
             <Card
                 sx={{
-                    borderRadius: 4,
+                    borderRadius: { xs: 3, sm: 4 },
                     boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
                     border: "1px solid",
                     borderColor: "divider",
                 }}
             >
                 <CardContent
-                    sx={{ display: "flex", flexDirection: "column", gap: 4, p: 3 }}
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: { xs: 3, sm: 4 },
+                        p: { xs: 2, sm: 3 },
+                        "&:last-child": { pb: { xs: 2, sm: 3 } },
+                    }}
                 >
                     {/* Task Name */}
                     <Box>
@@ -384,7 +402,7 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
                         />
                     </Box>
 
-                    {/* Task Type Section - Inline */}
+                    {/* Task Type Section */}
                     <Box>
                         <Typography
                             variant="overline"
@@ -468,7 +486,43 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
                         </Stack>
                     </Box>
 
-                    {/* Position Selector - Inline */}
+                    {/* Task Group */}
+                    <Box>
+                        <Typography
+                            variant="overline"
+                            fontWeight="bold"
+                            color="text.secondary"
+                            gutterBottom
+                            display="flex"
+                            alignItems="center"
+                            gap={1}
+                        >
+                            <FolderIcon fontSize="small" /> กลุ่มงาน
+                        </Typography>
+                        <FormControl fullWidth sx={{ mt: 1 }}>
+                            <InputLabel>เลือกกลุ่มงาน</InputLabel>
+                            <Select
+                                value={groupId !== null ? String(groupId) : ""}
+                                onChange={(e) => {
+                                    const val = e.target.value as string;
+                                    setGroupId(val === "" ? null : Number(val));
+                                }}
+                                label="เลือกกลุ่มงาน"
+                                sx={{ borderRadius: 2 }}
+                            >
+                                <MenuItem value="">
+                                    <em>ไม่ระบุกลุ่มงาน</em>
+                                </MenuItem>
+                                {taskGroups.map((group) => (
+                                    <MenuItem key={group.id} value={String(group.id)}>
+                                        {group.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Box>
+
+                    {/* Position Selector */}
                     <Box>
                         <Typography
                             variant="overline"
@@ -495,12 +549,13 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
                         </Stack>
                     </Box>
 
-                    {/* User Assignment - Inline */}
+                    {/* User Assignment */}
                     <Box>
                         <Stack
-                            direction="row"
-                            justifyContent="space-between"
-                            alignItems="center"
+                            direction={{ xs: "column", sm: "row" }}
+                            justifyContent={{ xs: "flex-start", sm: "space-between" }}
+                            alignItems={{ xs: "flex-start", sm: "center" }}
+                            gap={1}
                             sx={{ mb: 1 }}
                         >
                             <Typography
@@ -562,17 +617,16 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
                                 )}
                             >
                                 {filteredUsers?.map((user) => (
-                                    console.log("Rendering user in dropdown:", user),
                                     <MenuItem key={user.id} value={user.id}>
                                         <Checkbox checked={selectedUserIds.indexOf(String(user.id)) > -1} />
                                         <ListItemAvatar>
                                             <Avatar sx={{ width: 32, height: 32, bgcolor: "primary.main" }}>
-                                                {user.fullname}
+                                                {user.fullname?.[0] ?? "?"}
                                             </Avatar>
                                         </ListItemAvatar>
                                         <ListItemText
                                             primary={user.fullname ?? "ไม่ระบุชื่อ"}
-                                            secondary={user.roleName ?? 'ไม่ระบุบทบาท'}
+                                            secondary={user.roleName ?? "ไม่ระบุบทบาท"}
                                         />
                                     </MenuItem>
                                 ))}

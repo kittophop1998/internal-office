@@ -83,6 +83,16 @@ function TaskCardItem({ task, onEdit, onDelete }: TaskCardItemProps) {
                     </Typography>
                 )}
 
+                {task.groupName && (
+                    <Typography
+                        variant="caption"
+                        color="text.secondary"
+                        sx={{ mt: 1, fontStyle: "italic" }}
+                    >
+                        กลุ่ม: {task.groupName}
+                    </Typography>
+                )}
+
                 <Divider sx={{ my: 1.5 }} />
 
                 <Stack direction="row" spacing={2}>
@@ -92,7 +102,7 @@ function TaskCardItem({ task, onEdit, onDelete }: TaskCardItemProps) {
                     </Stack>
                     <Stack direction="row" spacing={0.5} alignItems="center">
                         <Typography variant="caption" color="text.disabled">Order:</Typography>
-                        <Typography variant="caption" fontWeight={600}>{task.sort_order}</Typography>
+                        <Typography variant="caption" fontWeight={600}>{task.sortOrder}</Typography>
                     </Stack>
                     <Stack direction="row" spacing={0.5} alignItems="center">
                         <Typography variant="caption" color="text.disabled">ID:</Typography>

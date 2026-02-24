@@ -3,13 +3,14 @@ import { BaseApiService } from "./base.service";
 export interface TaskItem {
     id: number;
     title: string;
+    description: string;
     type: string;
     subtype?: string | null;
-    description?: string | null;
-    sort_order: number;
     weight?: number | null;
-    users: Array<{ id: number; name: string }>;
-    created_at: string;
+    sortOrder: number;
+    groupId: number;
+    groupName: string;
+    assignments: Array<{ assignmentId: number; userId: number; userName: string }>;
 }
 
 export interface CreateTaskPayload {
@@ -21,6 +22,7 @@ export interface CreateTaskPayload {
     weight?: number | null;
     users: Array<number | string>;
     position?: string | null;
+    groupId?: number | null;
 }
 
 

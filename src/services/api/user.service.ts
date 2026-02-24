@@ -11,6 +11,8 @@ export interface User {
     address: string;
     email: string;
     roleName: Position | null;
+    roleId?: number | null;
+    departmentId?: number | null;
     isActive: boolean;
     createdAt: Date;
     updatedAt: Date;
@@ -20,6 +22,31 @@ export interface User {
     departmentName?: string | null;
     branchName?: string | null;
     branchLocation?: string | null;
+}
+
+export interface UpdateUserPayload {
+    fullName: string;
+    email: string;
+    departmentId: number | null;
+    roleId: number | null;
+    branchIds: number[];
+}
+
+export interface CreateUserPayload {
+    fullName: string;
+    username: string;
+    password: string;
+    email: string;
+    departmentId: number | null;
+    roleId: number | null;
+    branchIds: number[];
+}
+
+export interface UserActionResponse {
+    success: boolean;
+    message: string;
+    data: null;
+    timestamp: string;
 }
 
 export class UserService extends BaseApiService {
@@ -33,8 +60,12 @@ export class UserService extends BaseApiService {
         return this.get<User>(`${this.BASE_PATH}/${id}`);
     }
 
-    static async update(id: string, data: Partial<User>): Promise<User> {
-        return this.put<User>(`${this.BASE_PATH}/${id}`, data);
+    static async update(id: string, data: UpdateUserPayload): Promise<UserActionResponse> {
+        return this.put<UserActionResponse>(`${this.BASE_PATH}/${id}`, data);
+    }
+
+    static async create(data: CreateUserPayload): Promise<UserActionResponse> {
+        return this.post<UserActionResponse>(`${this.BASE_PATH}`, data);
     }
 
     static async deleteUser(id: string): Promise<{ message: string }> {

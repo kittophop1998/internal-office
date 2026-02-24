@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
     Dialog,
     DialogTitle,
@@ -17,44 +17,42 @@ import {
     Select,
     Checkbox,
     ListItemText,
+    IconButton,
+    InputAdornment,
 } from "@mui/material";
-import { User } from "@/services/api/user.service";
-import { useUpdateUser } from "@/hooks/api/useUser";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useCreateUser } from "@/hooks/api/useUser";
 import { useTranslation } from "react-i18next";
 import { useNotification } from "@/hooks/useNotification";
 import { useDepartments, useBranches, useRoles } from "@/hooks/api/useMaster";
 
-interface EditUserDialogProps {
+interface AddUserDialogProps {
     open: boolean;
-    user: User | null;
     onClose: () => void;
 }
 
-export default function EditUserDialog({ open, user, onClose }: EditUserDialogProps) {
+const initialFormData = {
+    fullName: "",
+    username: "",
+    password: "",
+    email: "",
+    departmentId: null as number | null,
+    roleId: null as number | null,
+    branchIds: [] as number[],
+};
+
+export default function AddUserDialog({ open, onClose }: AddUserDialogProps) {
     const { t } = useTranslation();
     const { showNotification } = useNotification();
-    const updateUserMutation = useUpdateUser();
+    const createUserMutation = useCreateUser();
 
     const { data: departments = [] } = useDepartments();
     const { data: roles = [] } = useRoles();
     const { data: branches = [] } = useBranches();
 
-    const getInitialFormData = () => ({
-        fullName: user?.fullname || "",
-        email: user?.email || "",
-        departmentId: user?.departmentId ?? null,
-        roleId: user?.roleId ?? null,
-        branchIds: user?.branches?.map((b) => b.id) ?? [],
-    });
-
-    const [formData, setFormData] = useState(getInitialFormData);
-
-    useEffect(() => {
-        if (open && user) {
-            setFormData(getInitialFormData());
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [open, user?.id]);
+    const [formData, setFormData] = useState(initialFormData);
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleChange = (field: keyof typeof formData) => (
         event: React.ChangeEvent<HTMLInputElement>
@@ -71,25 +69,23 @@ export default function EditUserDialog({ open, user, onClose }: EditUserDialogPr
     };
 
     const handleSubmit = async () => {
-        if (!user) return;
-
         try {
-            await updateUserMutation.mutateAsync({
-                userId: user.id,
-                data: {
-                    fullName: formData.fullName,
-                    email: formData.email,
-                    departmentId: formData.departmentId,
-                    roleId: formData.roleId,
-                    branchIds: formData.branchIds,
-                },
+            await createUserMutation.mutateAsync({
+                fullName: formData.fullName,
+                username: formData.username,
+                password: formData.password,
+                email: formData.email,
+                departmentId: formData.departmentId,
+                roleId: formData.roleId,
+                branchIds: formData.branchIds,
             });
 
-            showNotification(t("users.updateSuccess"), "success");
+            showNotification(t("users.createSuccess"), "success");
+            setFormData(initialFormData);
             onClose();
         } catch (error) {
             showNotification(
-                t("users.updateError", {
+                t("users.createError", {
                     message: error instanceof Error ? error.message : "Unknown error",
                 }),
                 "error"
@@ -98,10 +94,13 @@ export default function EditUserDialog({ open, user, onClose }: EditUserDialogPr
     };
 
     const handleClose = () => {
-        if (!updateUserMutation.isPending) {
+        if (!createUserMutation.isPending) {
+            setFormData(initialFormData);
             onClose();
         }
     };
+
+    console.log("sdssd", roles)
 
     return (
         <Dialog
@@ -111,23 +110,44 @@ export default function EditUserDialog({ open, user, onClose }: EditUserDialogPr
             fullWidth
             PaperProps={{ sx: { borderRadius: 2 } }}
         >
-            <DialogTitle sx={{ fontWeight: 600 }}>{t("users.editUser")}</DialogTitle>
+            <DialogTitle sx={{ fontWeight: 600 }}>{t("users.addUser")}</DialogTitle>
             <DialogContent>
                 <Stack spacing={2.5} sx={{ mt: 1 }}>
-                    <TextField
-                        label={t("users.username")}
-                        value={user?.username || ""}
-                        disabled
-                        fullWidth
-                        helperText={t("users.usernameReadonly")}
-                    />
-
                     <TextField
                         label={t("users.fullname")}
                         value={formData.fullName}
                         onChange={handleChange("fullName")}
                         fullWidth
                         required
+                    />
+
+                    <TextField
+                        label={t("users.username")}
+                        value={formData.username}
+                        onChange={handleChange("username")}
+                        fullWidth
+                        required
+                    />
+
+                    <TextField
+                        label={t("users.password")}
+                        type={showPassword ? "text" : "password"}
+                        value={formData.password}
+                        onChange={handleChange("password")}
+                        fullWidth
+                        required
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        onClick={() => setShowPassword((prev) => !prev)}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
                     />
 
                     <TextField
@@ -201,16 +221,16 @@ export default function EditUserDialog({ open, user, onClose }: EditUserDialogPr
                 </Stack>
             </DialogContent>
             <DialogActions sx={{ px: 3, pb: 2 }}>
-                <Button onClick={handleClose} disabled={updateUserMutation.isPending}>
+                <Button onClick={handleClose} disabled={createUserMutation.isPending}>
                     {t("common.cancel")}
                 </Button>
                 <Button
                     onClick={handleSubmit}
                     variant="contained"
-                    disabled={updateUserMutation.isPending}
-                    startIcon={updateUserMutation.isPending ? <CircularProgress size={16} /> : null}
+                    disabled={createUserMutation.isPending}
+                    startIcon={createUserMutation.isPending ? <CircularProgress size={16} /> : null}
                 >
-                    {updateUserMutation.isPending ? t("common.saving") : t("common.save")}
+                    {createUserMutation.isPending ? t("common.saving") : t("common.save")}
                 </Button>
             </DialogActions>
         </Dialog>

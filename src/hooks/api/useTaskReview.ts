@@ -10,6 +10,10 @@ export function useTaskReview(
         queryKey: ['taskReviews', filter],
         queryFn: () => TaskReview.getTaskReviews(filter),
         ...options,
+        refetchOnMount: 'always',
+        refetchOnWindowFocus: false,
+        staleTime: 0,
+        gcTime: 0,
     });
 }
 
