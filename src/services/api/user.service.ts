@@ -1,25 +1,30 @@
 import { BaseApiService } from "./base.service";
-import { Branch } from "./master.service";
 
 export type Position = 'admin' | 'manager' | 'staff';
 
+export interface UserBranch {
+    branchId: number;
+    branchName: string;
+}
+
 export interface User {
     id: string;
-    fullname: string;
+    fullName: string;
     username: string;
     telephone: string;
     address: string;
     email: string;
-    roleName: Position | null;
     roleId?: number | null;
+    roleCode?: string | null;
+    roleName: string | null;
     departmentId?: number | null;
+    departmentName?: string | null;
     isActive: boolean;
     createdAt: Date;
     updatedAt: Date;
-    branches: Branch[];
+    branches: UserBranch[];
     taskSessionId: string | null;
     positionTitle?: string | null;
-    departmentName?: string | null;
     branchName?: string | null;
     branchLocation?: string | null;
 }

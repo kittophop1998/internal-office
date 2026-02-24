@@ -58,7 +58,7 @@ function UserCardItem({ user, onEdit, onDelete, t }: UserCardItemProps) {
             <CardContent sx={{ pb: 1 }}>
                 <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={1}>
                     <Typography variant="subtitle1" fontWeight={700} sx={{ flex: 1 }}>
-                        {user.fullname}
+                        {user.fullName}
                     </Typography>
                     <Stack direction="row" spacing={0.5} flexShrink={0}>
                         {user.roleName && (
@@ -172,7 +172,7 @@ export default function UserDataGrid({ users }: UserDataGridProps) {
                 width: 130,
             },
             {
-                field: "fullname",
+                field: "fullName",
                 headerName: t('users.fullname'),
                 flex: 1,
                 minWidth: 180,

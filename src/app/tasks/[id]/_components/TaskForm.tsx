@@ -279,7 +279,7 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
         (userId: string) => {
             const user = users.find((item) => Number(item.id) === Number(userId));
             if (user) {
-                return `${user.fullname ?? ""}`.trim();
+                return `${user.fullName ?? ""}`.trim();
             }
             return "ไม่ระบุชื่อ";
         },
@@ -621,11 +621,11 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
                                         <Checkbox checked={selectedUserIds.indexOf(String(user.id)) > -1} />
                                         <ListItemAvatar>
                                             <Avatar sx={{ width: 32, height: 32, bgcolor: "primary.main" }}>
-                                                {user.fullname?.[0] ?? "?"}
+                                                {user.fullName?.[0] ?? "?"}
                                             </Avatar>
                                         </ListItemAvatar>
                                         <ListItemText
-                                            primary={user.fullname ?? "ไม่ระบุชื่อ"}
+                                            primary={user.fullName ?? "ไม่ระบุชื่อ"}
                                             secondary={user.roleName ?? "ไม่ระบุบทบาท"}
                                         />
                                     </MenuItem>

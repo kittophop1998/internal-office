@@ -40,11 +40,11 @@ export default function EditUserDialog({ open, user, onClose }: EditUserDialogPr
     const { data: branches = [] } = useBranches();
 
     const getInitialFormData = () => ({
-        fullName: user?.fullname || "",
+        fullName: user?.fullName || "",
         email: user?.email || "",
         departmentId: user?.departmentId ?? null,
         roleId: user?.roleId ?? null,
-        branchIds: user?.branches?.map((b) => b.id) ?? [],
+        branchIds: user?.branches?.map((b) => b.branchId) ?? [],
     });
 
     const [formData, setFormData] = useState(getInitialFormData);
