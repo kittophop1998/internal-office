@@ -38,7 +38,8 @@ export function useCheckTaskSessionExists(
         enabled: !!params.branchId && !!params.type,
         refetchOnMount: true,
         refetchOnWindowFocus: false,
-        staleTime: 30_000, // cache 30s ป้องกัน refetch ถี่เกินไป
+        staleTime: 5_000,
+        gcTime: 60_000,
         ...options,
     });
 }
