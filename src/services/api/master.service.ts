@@ -14,10 +14,14 @@ export interface Role {
     description?: string;
 }
 
-export interface Branch {
+export interface BranchItem {
     id: number;
     name: string;
     location: string;
+}
+
+export interface Branch {
+    branches: BranchItem[];
 }
 
 export interface TaskGroup {
@@ -29,7 +33,7 @@ export interface TaskGroup {
 export interface MasterDataResponse {
     departments: Department[];
     roles: Role[];
-    branches: Branch[];
+    branches: BranchItem[];
     taskGroups: TaskGroup[];
 };
 
@@ -37,6 +41,11 @@ export class MasterDataService extends BaseApiService {
     private static readonly BASE_PATH = '/master';
 
     static async getBranches() {
+        const response = await this.get<Branch>(`${this.BASE_PATH}/branches`);
+        return response.branches;
+    }
+
+    static async getMasterBranches() {
         const response = await this.get<MasterDataResponse>(`${this.BASE_PATH}`);
         return response.branches;
     }

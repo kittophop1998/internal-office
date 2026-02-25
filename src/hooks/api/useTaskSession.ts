@@ -8,6 +8,7 @@ export function useTaskSession(
     return useQuery<TaskSessionItem[], Error>({
         queryKey: ['taskSessions', filter],
         queryFn: () => TaskSession.getTaskSession(filter),
+        enabled: !!filter?.branchId,
         ...options,
     });
 }

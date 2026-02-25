@@ -22,7 +22,7 @@ import { User } from "@/services/api/user.service";
 import { useUpdateUser } from "@/hooks/api/useUser";
 import { useTranslation } from "react-i18next";
 import { useNotification } from "@/hooks/useNotification";
-import { useDepartments, useBranches, useRoles } from "@/hooks/api/useMaster";
+import { useDepartments, useMasterBranches, useRoles } from "@/hooks/api/useMaster";
 
 interface EditUserDialogProps {
     open: boolean;
@@ -37,7 +37,7 @@ export default function EditUserDialog({ open, user, onClose }: EditUserDialogPr
 
     const { data: departments = [] } = useDepartments();
     const { data: roles = [] } = useRoles();
-    const { data: branches = [] } = useBranches();
+    const { data: branches = [] } = useMasterBranches();
 
     const getInitialFormData = () => ({
         fullName: user?.fullName || "",

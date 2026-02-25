@@ -1,8 +1,6 @@
 import { BaseApiService } from "./base.service";
 
 export interface TaskSessionFilter {
-    type?: string;
-    subType?: string;
     branchId?: number;
 }
 
@@ -13,6 +11,7 @@ export interface TaskSessionAttachment {
 
 export interface TaskSessionItem {
     id: number;
+    type: string;
     date: string;
     status: string;
     taskId: number;

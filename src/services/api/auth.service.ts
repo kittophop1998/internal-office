@@ -12,18 +12,11 @@ export interface AuthResponse {
 
 export interface UserInfo {
     id?: string;
-    fullName: string;
-    role: string;
-    position: string;
-    positionName?: string | null;
-    department?: string | null;
-    branch?: string | null;
-    branchName?: string | null;
-    branchLocation?: string | null;
-    telephone?: string;
-    address?: string;
-    email?: string;
     username?: string;
+    fullName: string;
+    roleId: number;
+    roleCode: string;
+    roleName: string;
 }
 
 export class AuthService extends BaseApiService {

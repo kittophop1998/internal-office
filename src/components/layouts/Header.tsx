@@ -46,7 +46,7 @@ export default function Header({
     const [currentBranchId, setCurrentBranchId] = useState<string | null>(null);
 
     const { logout } = useLogout();
-    const { data: branches = [] } = useBranches();
+    const { data: branches = [], isLoading: branchesLoading } = useBranches();
 
     useEffect(() => {
         /* eslint-disable-next-line */
@@ -73,7 +73,7 @@ export default function Header({
     }, [isMounted]);
 
     const currentUserName = currentUser?.fullName || t('header.undefinedUser');
-    const currentUserRole = currentUser?.positionName || currentUser?.role || '';
+    const currentUserRole = currentUser?.roleName || currentUser?.roleCode || '';
     const initials = getInitials(currentUserName);
 
     const branchName = useMemo(() => {
@@ -414,6 +414,7 @@ export default function Header({
                 open={openBranchDialog}
                 onClose={() => setOpenBranchDialog(false)}
                 branches={branches}
+                isLoading={branchesLoading}
                 currentBranchId={currentBranchId}
                 onBranchChange={handleBranchChange}
             />

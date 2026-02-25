@@ -10,6 +10,7 @@ import { useState } from "react";
 export default function ChecklistTypePage() {
     const params = useParams();
     const { type } = params as { type: string };
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [dailySubType, setDailySubType] = useState<string>("");
 
     const [currentBranchId] = useState<number>(() => {
@@ -21,8 +22,6 @@ export default function ChecklistTypePage() {
     });
 
     const { data: sessions, refetch } = useTaskSession({
-        type: type.toUpperCase(),
-        subType: dailySubType || undefined,
         branchId: currentBranchId || undefined,
     });
 

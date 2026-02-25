@@ -2,7 +2,6 @@
 
 import { MainLayout } from "@/components/layouts";
 import ChecklistIcon from '@mui/icons-material/ChecklistRtl';
-import AssessmentIcon from '@mui/icons-material/Assessment';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import GradingIcon from '@mui/icons-material/Grading';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';

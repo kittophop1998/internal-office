@@ -1,12 +1,26 @@
-import { Branch, Department, MasterDataService, Role, TaskGroup } from "@/services/api/master.service";
+import { BranchItem, Department, MasterDataService, Role, TaskGroup } from "@/services/api/master.service";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 
 export function useBranches(
-    options?: Omit<UseQueryOptions<Branch[], Error>, 'queryKey' | 'queryFn'>
+    options?: Omit<UseQueryOptions<BranchItem[], Error>, 'queryKey' | 'queryFn'>
 ) {
-    return useQuery<Branch[], Error>({
+    return useQuery<BranchItem[], Error>({
         queryKey: ['master'],
         queryFn: () => MasterDataService.getBranches(),
+        ...options,
+        refetchOnMount: true,
+        refetchOnWindowFocus: false,
+        staleTime: 5_000,
+        gcTime: 60_000
+    })
+}
+
+export function useMasterBranches(
+    options?: Omit<UseQueryOptions<BranchItem[], Error>, 'queryKey' | 'queryFn'>
+) {
+    return useQuery<BranchItem[], Error>({
+        queryKey: ['master', 'branches'],
+        queryFn: () => MasterDataService.getMasterBranches(),
         ...options,
     })
 }

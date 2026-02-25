@@ -51,16 +51,21 @@ export default function Home() {
   const onSubmit = async (data: LoginFormData) => {
     setError(null);
     try {
-      await loginMutation.mutate(data);
-      setNotification({
-        open: true,
-        message: t('login.loginSuccess'),
-        severity: 'success',
-        title: t('common.success')
+      await loginMutation.mutateAsync(data, {
+        onSuccess: (res) => {
+          setNotification({
+            open: true,
+            message: t('login.loginSuccess'),
+            severity: 'success',
+            title: t('common.success')
+          });
+          const role = res.user?.roleCode?.toUpperCase();
+          const isAdminOrManager = role === 'ADMIN' || role === 'MANAGER';
+          setTimeout(() => {
+            router.push(isAdminOrManager ? '/dashboard' : '/checklists');
+          }, 1500);
+        }
       });
-      setTimeout(() => {
-        router.push('/dashboard');
-      }, 1500);
     } catch (err) {
       setError(err instanceof Error ? err.message : t('login.unknownError'));
     }

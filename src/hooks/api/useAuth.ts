@@ -9,6 +9,7 @@ export function useAuth(
         mutationFn: (credentials) => AuthService.login(credentials),
         onSuccess: async (data, variables, context, ...rest) => {
             localStorage.setItem('user', JSON.stringify(data.user));
+            localStorage.setItem('userRole', data.user.roleCode);
 
             await options?.onSuccess?.(data, variables, context, ...rest);
         },

@@ -15,12 +15,13 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
-import { Branch } from '@/services/api/master.service';
+import { BranchItem } from '@/services/api/master.service';
 
 interface SelectBranchDialogProps {
     open: boolean;
     onClose: () => void;
-    branches: Branch[];
+    branches: BranchItem[];
+    isLoading?: boolean;
     currentBranchId: string | null;
     onBranchChange: (branchId: string | null) => void;
 }
@@ -29,6 +30,7 @@ export default function SelectBranchDialog({
     open,
     onClose,
     branches,
+    isLoading = false,
     currentBranchId,
     onBranchChange
 }: SelectBranchDialogProps) {
@@ -72,7 +74,7 @@ export default function SelectBranchDialog({
                 </IconButton>
             </DialogTitle>
             <DialogContent dividers sx={{ p: 0 }}>
-                {branches.length === 0 ? (
+                {isLoading ? (
                     <Box sx={{ 
                         display: 'flex', 
                         justifyContent: 'center', 
@@ -84,6 +86,20 @@ export default function SelectBranchDialog({
                         <CircularProgress size={40} />
                         <Typography variant="body2" color="text.secondary">
                             กำลังโหลดข้อมูลสาขา...
+                        </Typography>
+                    </Box>
+                ) : branches.length === 0 ? (
+                    <Box sx={{ 
+                        display: 'flex', 
+                        justifyContent: 'center', 
+                        alignItems: 'center',
+                        minHeight: 200,
+                        flexDirection: 'column',
+                        gap: 2,
+                        px: 3
+                    }}>
+                        <Typography variant="body1" color="text.secondary" textAlign="center">
+                            ไม่มีสาขาที่ได้รับอนุญาต
                         </Typography>
                     </Box>
                 ) : (

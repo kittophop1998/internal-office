@@ -25,7 +25,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useCreateUser } from "@/hooks/api/useUser";
 import { useTranslation } from "react-i18next";
 import { useNotification } from "@/hooks/useNotification";
-import { useDepartments, useBranches, useRoles } from "@/hooks/api/useMaster";
+import { useDepartments, useMasterBranches, useRoles } from "@/hooks/api/useMaster";
 
 interface AddUserDialogProps {
     open: boolean;
@@ -49,7 +49,7 @@ export default function AddUserDialog({ open, onClose }: AddUserDialogProps) {
 
     const { data: departments = [] } = useDepartments();
     const { data: roles = [] } = useRoles();
-    const { data: branches = [] } = useBranches();
+    const { data: branches = [] } = useMasterBranches();
 
     const [formData, setFormData] = useState(initialFormData);
     const [showPassword, setShowPassword] = useState(false);
