@@ -36,11 +36,10 @@ export function useCheckTaskSessionExists(
         queryKey: ['taskSessionExists', params],
         queryFn: () => TaskSession.checkTaskSessionExists(params),
         enabled: !!params.branchId && !!params.type,
-        ...options,
-        refetchOnMount: 'always',
+        refetchOnMount: true,
         refetchOnWindowFocus: false,
-        staleTime: 0,
-        gcTime: 0,
+        staleTime: 30_000, // cache 30s ป้องกัน refetch ถี่เกินไป
+        ...options,
     });
 }
 

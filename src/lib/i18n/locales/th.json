@@ -73,7 +73,12 @@
     "weekly": "Weekly Checklist",
     "weeklyDesc": "ตรวจสอบงานประจำสัปดาห์เพื่อความเรียบร้อยและประสิทธิภาพในการทำงาน",
     "monthly": "Monthly Checklist",
-    "monthlyDesc": "ตรวจสอบงานประจำเดือนเพื่อความเรียบร้อยและประสิทธิภาพในการทำงาน"
+    "monthlyDesc": "ตรวจสอบงานประจำเดือนเพื่อความเรียบร้อยและประสิทธิภาพในการทำงาน",
+    "createTask": "สร้าง Task Session",
+    "creating": "กำลังสร้าง...",
+    "viewSession": "ดู Session",
+    "sessionCreated": "สร้าง Session แล้ว",
+    "sessionAlreadyExists": "มีการสร้าง Session สำหรับวันนี้แล้ว"
   },
   "tasks": {
     "title": "Task List",

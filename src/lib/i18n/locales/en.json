@@ -73,7 +73,12 @@
     "weekly": "Weekly Checklist",
     "weeklyDesc": "Check weekly tasks for efficiency and smooth operation",
     "monthly": "Monthly Checklist",
-    "monthlyDesc": "Check monthly tasks for efficiency and smooth operation"
+    "monthlyDesc": "Check monthly tasks for efficiency and smooth operation",
+    "createTask": "Create Task Session",
+    "creating": "Creating...",
+    "viewSession": "View Session",
+    "sessionCreated": "Session Created",
+    "sessionAlreadyExists": "A session has already been created for today"
   },
   "tasks": {
     "title": "Task List",
