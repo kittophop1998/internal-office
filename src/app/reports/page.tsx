@@ -30,11 +30,12 @@ import {
 } from "@mui/material";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useUsers } from "@/hooks/api/useUser";
 import { useUserReport } from "@/hooks/api/useReport";
-import { TaskReport, ReportType } from "@/services/api/report.service";
+import { TaskReport, ReportType, ReportService } from "@/services/api/report.service";
 import { useMasterBranches } from "@/hooks/api/useMaster";
 
 const RATING_ROWS = [
@@ -115,6 +116,8 @@ export default function ReportsPage() {
     const [selectedBranchId, setSelectedBranchId] = useState<string>("");
     const [selectedType, setSelectedType] = useState<ReportType | "ALL">("ALL");
     const [queryParams, setQueryParams] = useState<{ userId: string; branchId: string; type?: ReportType } | null>(null);
+    const [pdfLoading, setPdfLoading] = useState(false);
+    const [pdfError, setPdfError] = useState<string | null>(null);
 
     const { data: users, isLoading: usersLoading } = useUsers();
     const { data: branches, isLoading: branchesLoading } = useMasterBranches();
@@ -135,6 +138,29 @@ export default function ReportsPage() {
             branchId: selectedBranchId,
             type: selectedType === "ALL" ? undefined : selectedType,
         });
+    };
+
+    const handleExportPdf = async () => {
+        if (!selectedUserId || !selectedBranchId) return;
+        setPdfLoading(true);
+        setPdfError(null);
+        try {
+            const blob = await ReportService.exportPdf({
+                userId: selectedUserId,
+                branchId: selectedBranchId,
+                type: selectedType === "ALL" ? undefined : selectedType,
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `report_${selectedUserId}_${selectedBranchId}.pdf`;
+            a.click();
+            URL.revokeObjectURL(url);
+        } catch (err) {
+            setPdfError(err instanceof Error ? err.message : t("common.error"));
+        } finally {
+            setPdfLoading(false);
+        }
     };
 
     return (
@@ -269,12 +295,26 @@ export default function ReportsPage() {
                                 t("reports.viewReport")
                             )}
                         </Button>
+
+                        <Button
+                            variant="outlined"
+                            color="error"
+                            startIcon={pdfLoading ? <CircularProgress size={16} color="inherit" /> : <PictureAsPdfIcon />}
+                            onClick={handleExportPdf}
+                            disabled={!selectedUserId || !selectedBranchId || pdfLoading}
+                            sx={{ borderRadius: 2, px: 3, fontWeight: 600, height: 40, flexShrink: 0 }}
+                        >
+                            {pdfLoading ? t("common.loading") : t("reports.exportPdf")}
+                        </Button>
                     </Stack>
                 </Paper>
 
                 {/* Error */}
                 {isError && (
                     <Alert severity="error">{error?.message ?? t("common.error")}</Alert>
+                )}
+                {pdfError && (
+                    <Alert severity="error" onClose={() => setPdfError(null)}>{pdfError}</Alert>
                 )}
 
                 {/* Report Table */}

@@ -180,6 +180,7 @@
     "typeWeekly": "Weekly",
     "typeMonthly": "Monthly",
     "viewReport": "View Report",
+    "exportPdf": "Export PDF",
     "noData": "No report data. Please select an employee and click View Report.",
     "criticalTasksTable": "Critical Tasks",
     "weight": "Weight",

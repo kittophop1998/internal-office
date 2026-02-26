@@ -1,4 +1,5 @@
 import { BaseApiService } from "./base.service";
+import { apiClient } from "@/lib/api/axios-instance";
 
 export type ReportType = "DAILY" | "WEEKLY" | "MONTHLY";
 
@@ -37,5 +38,17 @@ export class ReportService extends BaseApiService {
                 ...(params.type ? { type: params.type } : {}),
             },
         });
+    }
+
+    static async exportPdf(params: UserReportParams): Promise<Blob> {
+        const response = await apiClient.get(`${this.BASE_PATH}/export-pdf`, {
+            params: {
+                userId: params.userId,
+                branchId: params.branchId,
+                ...(params.type ? { type: params.type } : {}),
+            },
+            responseType: 'blob',
+        });
+        return response.data as Blob;
     }
 }

@@ -182,6 +182,7 @@
     "typeWeekly": "รายสัปดาห์",
     "typeMonthly": "รายเดือน",
     "viewReport": "ดูข้อมูล",
+    "exportPdf": "ส่งออก PDF",
     "noData": "ยังไม่มีข้อมูลรายงาน กรุณาเลือกพนักงานแล้วกด ดูข้อมูล",
     "criticalTasksTable": "Critical Tasks",
     "weight": "น้ำหนัก",
