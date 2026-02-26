@@ -224,7 +224,7 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
 
         const payload = {
             title: taskName.trim(),
-            description: taskDescription?.trim() || null,
+            description: taskDescription?.trim() || '',
             type: taskType,
             subtype: taskType === "DAILY" ? taskSubType || null : null,
             sortOrder,
