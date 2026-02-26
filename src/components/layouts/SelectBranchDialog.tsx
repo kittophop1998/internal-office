@@ -16,6 +16,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
 import { BranchItem } from '@/services/api/master.service';
+import { UserService } from '@/services/api/user.service';
 
 interface SelectBranchDialogProps {
     open: boolean;
@@ -34,10 +35,15 @@ export default function SelectBranchDialog({
     currentBranchId,
     onBranchChange
 }: SelectBranchDialogProps) {
-    const handleBranchSelect = (branchId: number) => {
+    const handleBranchSelect = async (branchId: number) => {
         const branchIdStr = String(branchId);
         onBranchChange(branchIdStr);
         localStorage.setItem("currentBranchId", branchIdStr);
+        try {
+            await UserService.updateCurrentBranch({ currentBranchId: branchId });
+        } catch (error) {
+            console.error('Failed to update current branch:', error);
+        }
         onClose();
     };
 

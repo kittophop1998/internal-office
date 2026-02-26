@@ -10,6 +10,11 @@ export function useAuth(
         onSuccess: async (data, variables, context, ...rest) => {
             localStorage.setItem('user', JSON.stringify(data.user));
             localStorage.setItem('userRole', data.user.roleCode);
+            if (data.user.currentBranchId != null) {
+                localStorage.setItem('currentBranchId', data.user.currentBranchId.toString());
+            } else {
+                localStorage.removeItem('currentBranchId');
+            }
 
             await options?.onSuccess?.(data, variables, context, ...rest);
         },

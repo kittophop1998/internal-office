@@ -17,6 +17,7 @@ export interface UserInfo {
     roleId: number;
     roleCode: string;
     roleName: string;
+    currentBranchId: number | null;
 }
 
 export class AuthService extends BaseApiService {

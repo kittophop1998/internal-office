@@ -54,6 +54,10 @@ export interface UserActionResponse {
     timestamp: string;
 }
 
+export interface UpdateCurrentBranchPayload {
+    currentBranchId: number;
+}
+
 export class UserService extends BaseApiService {
     private static readonly BASE_PATH = '/users';
 
@@ -75,5 +79,9 @@ export class UserService extends BaseApiService {
 
     static async deleteUser(id: string): Promise<{ message: string }> {
         return this.delete<{ message: string }>(`${this.BASE_PATH}/${id}`);
+    }
+
+    static async updateCurrentBranch(data: UpdateCurrentBranchPayload): Promise<UserActionResponse> {
+        return this.put<UserActionResponse, UpdateCurrentBranchPayload>(`${this.BASE_PATH}/update/current-branch`, data);
     }
 }
