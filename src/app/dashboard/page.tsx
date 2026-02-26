@@ -4,6 +4,7 @@ import { MainLayout } from "@/components/layouts";
 import ChecklistIcon from '@mui/icons-material/ChecklistRtl';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import GradingIcon from '@mui/icons-material/Grading';
+import SummarizeIcon from '@mui/icons-material/Summarize';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { Box, CardActionArea, CardContent, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
@@ -40,6 +41,14 @@ const menuItems = [
         key: 'taskReviewMenu',
         icon: GradingIcon,
         path: '/taskreview',
+        isActive: true,
+        color: '#8b5cf6',
+        role: ['ADMIN', 'MANAGER'],
+    },
+    {
+        key: 'reportsMenu',
+        icon: SummarizeIcon,
+        path: '/reports',
         isActive: true,
         color: '#8b5cf6',
         role: ['ADMIN', 'MANAGER'],
