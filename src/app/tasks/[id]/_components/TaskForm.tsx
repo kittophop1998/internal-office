@@ -65,6 +65,8 @@ const POSITION_OPTIONS: Array<{ id: Positions; title: string }> = [
     { id: "manager", title: "ผู้จัดการ" },
     { id: "store_manager", title: "ผู้จัดการสาขา" },
     { id: "stock_keeper", title: "พนักงานสต็อก" },
+    { id: "admin", title: "ผู้ดูแลระบบ" },
+    { id: "staff", title: "พนักงานทั่วไป" },
 ];
 
 // ===== Helper Functions =====
@@ -259,13 +261,11 @@ export default function TaskForm({ mode, taskId }: TaskFormProps) {
     
     const isSaving = createTaskMutation.isPending || updateTaskMutation.isPending;
 
-    const filteredUsers = useMemo(
-        () =>
-            users?.filter(
-                (user) => selectedPosition === "all" || user.roleName === selectedPosition
-            ),
-        [selectedPosition, users]
-    );
+    const filteredUsers = useMemo(() =>
+        users?.filter((user) => selectedPosition === "all" || 
+            user.roleCode?.toLowerCase() === selectedPosition.toLowerCase()
+        ), 
+    [selectedPosition, users]);
 
     const handleSelectAllUsers = useCallback(() => {
         setSelectedUserIds(filteredUsers.map((user) => String(user.id)));
