@@ -84,22 +84,28 @@ export default function ChecklistsPage() {
     }, []);
 
     const createdRef = useRef(false);
+    const [sessionsReady, setSessionsReady] = useState(false);
     const createMutation = useCreateTaskSession();
 
-    // Call createTaskSession for all types when branchId is available (backend handles idempotency)
     useEffect(() => {
         if (createdRef.current || !branchId) return;
         createdRef.current = true;
 
-        SESSION_TYPES.forEach((type) => {
-            createMutation.mutate({ branchId, type });
-        });
+        const createAll = async () => {
+            await Promise.allSettled(
+                SESSION_TYPES.map((type) =>
+                    createMutation.mutateAsync({ branchId, type })
+                )
+            );
+            setSessionsReady(true);
+        };
+        createAll();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [branchId]);
 
     const { data: sessions = [], isFetching, refetch } = useTaskSession(
         branchId ? { branchId } : undefined,
-        { refetchOnMount: true, enabled: !!branchId }
+        { refetchOnMount: true, enabled: !!branchId && sessionsReady }
     );
 
     // Session detail dialog state
@@ -221,7 +227,7 @@ export default function ChecklistsPage() {
         { DAILY: [], WEEKLY: [], MONTHLY: [] }
     );
 
-    const isLoading = createMutation.isPending || isFetching;
+    const isLoading = createMutation.isPending || !sessionsReady || isFetching;
     
     return (
         <MainLayout title={t("checklists.title")} backUrl="/dashboard" showBackButton={['ADMIN', 'MANAGER'].includes(userRole || '')}>
