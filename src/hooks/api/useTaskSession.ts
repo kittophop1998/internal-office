@@ -38,9 +38,9 @@ export function useCheckTaskSessionExists(
         queryFn: () => TaskSession.checkTaskSessionExists(params),
         enabled: !!params.branchId && !!params.type,
         refetchOnMount: true,
-        refetchOnWindowFocus: false,
-        staleTime: 5_000,
-        gcTime: 60_000,
+        refetchOnWindowFocus: true,
+        staleTime: 0, // ไม่เก็บ cache เลย (เดิมชื่อ staleTime)
+        gcTime: 120000, // เก็บ cache ไว้ 2 นาที (เดิมชื่อ cacheTime)
         ...options,
     });
 }

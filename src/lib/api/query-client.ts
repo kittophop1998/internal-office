@@ -1,6 +1,5 @@
 import { QueryClient } from '@tanstack/react-query';
 
-// สร้าง QueryClient พร้อม config เริ่มต้น
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

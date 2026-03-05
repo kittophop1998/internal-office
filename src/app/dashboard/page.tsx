@@ -51,7 +51,7 @@ const menuItems = [
         path: '/reports',
         isActive: true,
         color: '#8b5cf6',
-        role: ['ADMIN', 'MANAGER'],
+        role: ['ADMIN'],
     },
 ];
 

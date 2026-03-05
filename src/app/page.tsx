@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Box,
@@ -39,6 +39,20 @@ export default function Home() {
     severity: 'info' as 'success' | 'error' | 'warning' | 'info',
     title: ''
   });
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      try {
+        const parsed = JSON.parse(user);
+        const role = parsed?.roleCode?.toUpperCase();
+        const isAdminOrManager = role === 'ADMIN' || role === 'MANAGER';
+        router.replace(isAdminOrManager ? '/dashboard' : '/checklists');
+      } catch {
+        localStorage.removeItem('user');
+      }
+    }
+  }, [router]);
 
   const {
     control,
