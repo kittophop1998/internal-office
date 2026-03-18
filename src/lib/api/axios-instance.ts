@@ -32,9 +32,11 @@ apiClient.interceptors.response.use(
       
       switch (status) {
         case 401:
-          // Unauthorized - redirect ไป login (cookie จะถูกลบโดย backend)
           if (typeof window !== 'undefined') {
-            window.location.href = '/login';
+            localStorage.removeItem('user');
+            localStorage.removeItem('currentBranchId');
+            localStorage.removeItem('userRole');
+            window.location.href = '/';
           }
           break;
         case 403:

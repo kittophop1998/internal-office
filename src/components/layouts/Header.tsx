@@ -1,6 +1,6 @@
 'use client';
 
-import { AppBar, Toolbar, Typography, Box, IconButton, Menu, MenuItem, Avatar, Divider, List, ListItem, ListItemIcon, ListItemText, Drawer, Button } from '@mui/material';
+import { AppBar, Toolbar, Typography, Box, IconButton, Menu, MenuItem, Avatar, Divider, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/navigation';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -13,6 +13,7 @@ import { useLogout } from '../../hooks/api/useAuth';
 import { useBranches } from '../../hooks/api/useMaster';
 import { UserInfo } from '@/services/api/auth.service';
 import SelectBranchDialog from '@/components/layouts/SelectBranchDialog';
+import { Sidebar } from '@/components/layouts/Sidebar';
 
 interface HeaderProps {
     userName?: string;
@@ -335,79 +336,12 @@ export default function Header({
                 </MenuItem>
             </Menu>
 
-            {/* Mobile Drawer */}
-            <Drawer
-                anchor="right"
+            {/* Mobile Drawer — replaced by Sidebar */}
+            <Sidebar
                 open={mobileMenuOpen}
                 onClose={() => setMobileMenuOpen(false)}
-                sx={{
-                    display: { xs: 'block', sm: 'none' },
-                    '& .MuiDrawer-paper': { width: 260, pt: 2 }
-                }}
-            >
-                <Box sx={{ px: 2, pb: 2 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
-                        <Avatar
-                            sx={{
-                                width: 44,
-                                height: 44,
-                                bgcolor: 'grey.200',
-                                color: 'text.primary',
-                                fontWeight: 700
-                            }}
-                        >
-                            {initials}
-                        </Avatar>
-                        <Box>
-                            <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.primary' }}>
-                                {currentUserName}
-                            </Typography>
-                            {currentUserRole && (
-                                <Typography variant="caption" sx={{ color: 'text.secondary', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                                    {currentUserRole}
-                                </Typography>
-                            )}
-                        </Box>
-                    </Box>
-                    <Divider />
-                </Box>
-                <List>
-                    <ListItem>
-                        <ListItemIcon><StoreIcon /></ListItemIcon>
-                        <ListItemText
-                            primary={branchName || t('header.selectBranch')}
-                            secondary={t('header.branch')}
-                            onClick={() => { setOpenBranchDialog(true); setMobileMenuOpen(false); }}
-                            sx={{ cursor: 'pointer' }}
-                        />
-                    </ListItem>
-                    <Divider sx={{ my: 1 }} />
-                    <ListItem>
-                        <ListItemIcon><LanguageIcon /></ListItemIcon>
-                        <ListItemText
-                            primary={t('header.language')}
-                            secondary={i18n.language === 'th' ? 'ไทย' : 'English'}
-                        />
-                    </ListItem>
-                    <Box sx={{ px: 2, py: 0.5 }}>
-                        <MenuItem
-                            onClick={() => { handleLanguageChange(i18n.language === 'th' ? 'en' : 'th'); setMobileMenuOpen(false); }}
-                            sx={{ borderRadius: 1, border: 1, borderColor: 'divider' }}
-                        >
-                            <LanguageIcon sx={{ mr: 1, fontSize: 18 }} />
-                            {i18n.language === 'th' ? t('header.switchToEnglish') : t('header.switchToThai')}
-                        </MenuItem>
-                    </Box>
-                    <Divider sx={{ my: 1 }} />
-                    <ListItem
-                        onClick={() => { logout(); setMobileMenuOpen(false); }}
-                        sx={{ cursor: 'pointer', '&:hover': { backgroundColor: 'rgba(211, 47, 47, 0.04)' } }}
-                    >
-                        <ListItemIcon><LogoutIcon sx={{ color: 'error.main' }} /></ListItemIcon>
-                        <ListItemText primary={t('header.logout')} primaryTypographyProps={{ color: 'error.main' }} />
-                    </ListItem>
-                </List>
-            </Drawer>
+                currentBranchName={branchName}
+            />
 
             {/* Branch Selection Dialog */}
             <SelectBranchDialog

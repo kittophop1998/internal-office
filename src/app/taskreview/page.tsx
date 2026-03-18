@@ -2,22 +2,29 @@
 
 import { MainLayout } from "@/components/layouts";
 import { useTaskReview, useUpdateTaskReview } from "@/hooks/api/useTaskReview";
-import { Box, Card, CardContent, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Stack, Typography, alpha, useTheme } from "@mui/material";
 import { useState } from "react";
 import TaskSessionReviewDataGrid from "./_components/TaskSessionReviewDataGrid";
 import { useNotification } from "@/hooks/useNotification";
 import { useTranslation } from "react-i18next";
 
+const TAB_OPTIONS = [
+    { label: "taskReview.daily", value: "DAILY" },
+    { label: "taskReview.weekly", value: "WEEKLY" },
+    { label: "taskReview.monthly", value: "MONTHLY" },
+];
+
 export default function TaskReviewPage() {
     const [activeTab, setActiveTab] = useState("DAILY");
     const { showSuccess, showError } = useNotification();
     const { t } = useTranslation();
+    const theme = useTheme();
 
-    const handleTabChange = (_event: React.SyntheticEvent, newValue: string) => {
-        setActiveTab(newValue);
-    };
+    const { data: tasksReview, refetch, isFetching } = useTaskReview({
+        type: activeTab,
+        branchId: typeof window !== 'undefined' ? parseInt(localStorage.getItem('currentBranchId') || '0') : 0,
+    });
 
-    const { data: tasksReview, refetch } = useTaskReview({ type: activeTab, branchId: typeof window !== 'undefined' ? parseInt(localStorage.getItem('currentBranchId') || '0') : 0 });
     const { mutate: saveReviews } = useUpdateTaskReview({
         onSuccess: () => {
             showSuccess(t('taskReview.saveSuccess'));
@@ -36,43 +43,76 @@ export default function TaskReviewPage() {
 
     return (
         <MainLayout title={t('taskReview.title')} backUrl="/dashboard" showBackButton>
+            {/* ── Page Header ── */}
             <Stack
                 direction={{ xs: "column", sm: "row" }}
                 justifyContent="space-between"
                 alignItems={{ xs: "flex-start", sm: "center" }}
                 spacing={2}
-                sx={{ mb: 2 }}
+                sx={{ mb: 3 }}
             >
                 <Box>
-                    <Typography variant="h5" fontWeight={600}>
+                    <Typography variant="h5" fontWeight={700}>
                         {t('taskReview.title')}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 0.25 }}>
                         {t('taskReview.subtitle')}
                     </Typography>
                 </Box>
             </Stack>
 
-            <Card>
-                <CardContent>
-                    <Tabs
-                        value={activeTab}
-                        onChange={handleTabChange}
-                        variant="scrollable"
-                        scrollButtons="auto"
-                        sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}
-                    >
-                        <Tab label={t('taskReview.daily')} value="DAILY" />
-                        <Tab label={t('taskReview.weekly')} value="WEEKLY" />
-                        <Tab label={t('taskReview.monthly')} value="MONTHLY" />
-                    </Tabs>
+            {/* ── Pill Tabs ── */}
+            <Box
+                sx={{
+                    display: 'inline-flex',
+                    bgcolor: (theme) => alpha(theme.palette.primary.main, 0.07),
+                    borderRadius: 99,
+                    p: 0.5,
+                    mb: 3,
+                }}
+            >
+                {TAB_OPTIONS.map((tab) => {
+                    const isActive = activeTab === tab.value;
+                    return (
+                        <Box
+                            key={tab.value}
+                            component="button"
+                            onClick={() => setActiveTab(tab.value)}
+                            sx={{
+                                border: 'none',
+                                cursor: 'pointer',
+                                px: { xs: 2, sm: 3 },
+                                py: 1,
+                                borderRadius: 99,
+                                fontFamily: theme.typography.fontFamily,
+                                fontSize: '0.875rem',
+                                fontWeight: isActive ? 700 : 500,
+                                transition: 'all 0.2s ease',
+                                bgcolor: isActive ? 'primary.main' : 'transparent',
+                                color: isActive ? 'primary.contrastText' : 'text.secondary',
+                                boxShadow: isActive
+                                    ? `0 4px 14px ${alpha(theme.palette.primary.main, 0.35)}`
+                                    : 'none',
+                                '&:hover': {
+                                    bgcolor: isActive
+                                        ? 'primary.dark'
+                                        : alpha(theme.palette.primary.main, 0.12),
+                                    color: isActive ? 'primary.contrastText' : 'primary.main',
+                                },
+                            }}
+                        >
+                            {t(tab.label)}
+                        </Box>
+                    );
+                })}
+            </Box>
 
-                    <TaskSessionReviewDataGrid 
-                        tasks={tasksReview || []} 
-                        onSave={handleSaveReviews}
-                    />
-                </CardContent>
-            </Card>
+            {/* ── Content ── */}
+            <TaskSessionReviewDataGrid
+                tasks={tasksReview || []}
+                onSave={handleSaveReviews}
+                isLoading={isFetching}
+            />
         </MainLayout>
     );
 }
