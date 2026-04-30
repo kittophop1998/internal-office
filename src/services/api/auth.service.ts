@@ -7,6 +7,7 @@ export interface LoginCredentials {
 
 export interface AuthResponse {
     accessToken: string;
+    token?: string; // fallback: บาง backend return 'token' แทน 'accessToken'
     user: UserInfo;
 }
 

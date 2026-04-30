@@ -13,6 +13,13 @@ export const apiClient = axios.create({
 // Request Interceptor - สำหรับเพิ่ม token หรือ config อื่นๆ
 apiClient.interceptors.request.use(
   (config) => {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('accessToken');
+      if (token && token !== 'undefined' && token !== 'null') {
+        config.headers = config.headers ?? {};
+        config.headers['Authorization'] = `Bearer ${token}`;
+      }
+    }
     return config;
   },
   (error) => {
@@ -33,6 +40,7 @@ apiClient.interceptors.response.use(
       switch (status) {
         case 401:
           if (typeof window !== 'undefined') {
+            localStorage.removeItem('accessToken');
             localStorage.removeItem('user');
             localStorage.removeItem('currentBranchId');
             localStorage.removeItem('userRole');
